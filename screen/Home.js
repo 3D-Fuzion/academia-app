@@ -1,5 +1,5 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, View, Modal} from 'react-native';
+import {Text, View, Modal, Image} from 'react-native';
 import {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 
@@ -105,14 +105,17 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{textAlign: 'center', flex: 1, fontSize: 24}}>
-            Icone
-          </Text>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <Image
+              source={require('../assets/person.png')}
+              style={{width: 80, height: 80}}
+            />
+          </View>
           <Text style={{textAlign: 'center', flex: 1, fontSize: 24}}>Nome</Text>
           <View
             style={{
               flexDirection: 'row',
-              flex: 1,
+              flex: 2,
               height: '100%',
               alignItems: 'center',
               justifyContent: 'center',
