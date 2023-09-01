@@ -2,7 +2,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, View, Modal} from 'react-native';
 import {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {transform} from 'typescript';
 
 export default function Home() {
   const [menuModal, setMenuModal] = useState(false);
