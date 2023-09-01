@@ -38,6 +38,8 @@ export default function Home() {
             transform: [{translateY: 180}],
             alignSelf: 'center',
             backgroundColor: '#187B63',
+            elevation: 20,
+            shadowColor: '#171717',
             borderRadius: 10,
             padding: 10,
             gap: 1,
