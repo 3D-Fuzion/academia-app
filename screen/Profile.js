@@ -2,6 +2,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Image, Modal} from 'react-native';
 import {useState} from 'react';
 
+import Perfil from '../assets/screen_titles/perfil';
+
 import Sino from '../assets/sino';
 import Menu from '../assets/menu';
 import Coracao from '../assets/coracao';
@@ -16,7 +18,7 @@ import Sair from '../assets/menu/sair';
 import {transform} from 'typescript';
 import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
-export default function Record() {
+export default function Profile() {
   const [menuModal, setMenuModal] = useState(true);
   let menu;
   function SwitchModal() {
@@ -65,7 +67,6 @@ export default function Record() {
           flexDirection: 'row',
           width: '100%',
           alignItems: 'center',
-          backgroundColor: '#A8A8A8',
         }}>
         <Modal
           style={{backgroundColor: 'green'}}
@@ -180,9 +181,10 @@ export default function Record() {
             flex: 2,
             width: '100%',
             alignItems: 'center',
-            backgroundColor: '#A8A8A8',
           }}>
-          <Text>Logo</Text>
+          <SafeAreaView style={{alignSelf: 'flex-start', marginLeft: 30}}>
+            <Perfil width={80} height={80} />
+          </SafeAreaView>
         </SafeAreaView>
         <SafeAreaView
           style={{
