@@ -1,6 +1,7 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Image} from 'react-native';
 import Sino from '../assets/sino';
+import Menu from '../assets/menu';
 import Coracao from '../assets/coracao';
 import Estrela from '../assets/estrela';
 import {transform} from 'typescript';
@@ -39,7 +40,7 @@ export default function Record() {
             gap: 20,
           }}>
           <Sino width={35} height={35} />
-          <Sino width={35} height={35} />
+          <Menu width={35} height={35} />
         </SafeAreaView>
       </SafeAreaView>
       <SafeAreaView
