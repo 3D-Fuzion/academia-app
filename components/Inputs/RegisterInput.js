@@ -2,13 +2,8 @@ import {TextInput} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 export function RegisterInput({name, method}) {
-  function TriggerMethod() {
-    method();
-  }
-
   return (
     <TextInput
-      onFocus={TriggerMethod}
       placeholder={name}
       style={{
         textAlign: 'center',
