@@ -1,24 +1,17 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Sino from '../assets/sino';
 import Menu from '../assets/menu';
-import Calendario from '../assets/menu/calendario';
-import Atletas from '../assets/menu/atletas';
-import CheckInIcon from '../assets/menu/checkin';
-import Pagamento from '../assets/menu/pagamento';
-import Recorde from '../assets/menu/recorde';
-import Sair from '../assets/menu/sair';
-import {transform} from 'typescript';
-import CommandBar from '../components/CommandBar';
 
-import ScreenTitle from '../assets/screen_titles/recorde';
-
-export default function TopBar({method, variable}) {
+import TreinoDoDia from '../assets/screen_titles/treinododia';
+export default function TopBar({method, variable, screenTitle}) {
+  let title;
   function TriggerMethod() {
     method();
   }
-
+  if (screenTitle == 'treinododia') {
+    title = <TreinoDoDia width={150} height={150} />;
+  }
   return (
     <>
       <SafeAreaView
@@ -28,7 +21,7 @@ export default function TopBar({method, variable}) {
           alignItems: 'center',
         }}>
         <SafeAreaView style={{alignSelf: 'flex-start', marginLeft: 30}}>
-          <ScreenTitle width={150} height={150} />
+          {title}
         </SafeAreaView>
       </SafeAreaView>
       <SafeAreaView
