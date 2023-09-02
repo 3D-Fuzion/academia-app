@@ -4,6 +4,7 @@ import {RegisterInput} from '../components/Inputs/RegisterInput';
 import {useState, useEffect} from 'react';
 import Logo from '../assets/LOGO.svg';
 import LoginButton from '../components/Buttons/LoginButton';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 export default function Login() {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -42,12 +43,12 @@ export default function Login() {
         backgroundColor: '#ECECEC',
       }}>
       {logo}
-      <Text style={{color: '#187B63', fontSize: 34, marginTop: 50}}>
+      <Text style={{color: '#187B63', fontSize: 34, marginTop: 30}}>
         Bem vindo!
       </Text>
       <SafeAreaView
         style={{
-          marginTop: 60,
+          marginTop: 30,
           width: '60%',
           marginLeft: 100,
           marginRight: 100,
@@ -58,6 +59,22 @@ export default function Login() {
         <RegisterInput name={'Email'} />
         <RegisterInput name={'Senha'} />
         <LoginButton />
+        <TouchableOpacity>
+          <Text
+            style={{
+              textDecorationLine: 'underline',
+              fontSize: 18,
+              color: '#187B63',
+            }}>
+            Esqueci a Senha
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            marginTop: 25,
+          }}>
+          <Text style={{fontSize: 20}}>Voltar</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
   );
