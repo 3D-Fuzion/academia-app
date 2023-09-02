@@ -10,6 +10,7 @@ import Profile from './screen/Profile';
 import CheckIn from './screen/CheckIn';
 import Record from './screen/Record';
 import DayPratice from './screen/DayPratice';
+import Atletas from './screen/Atletas';
 
 const Stack = createStackNavigator();
 
@@ -17,12 +18,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="DayPratice"
+        initialRouteName="Atletas"
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Atletas" component={Atletas} />
         <Stack.Screen name="CheckIn" component={CheckIn} />
         <Stack.Screen name="Record" component={Record} />
         <Stack.Screen name="DayPratice" component={DayPratice} />
