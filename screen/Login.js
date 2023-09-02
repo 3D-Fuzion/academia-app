@@ -1,14 +1,11 @@
-import {Image, Text, TextInput, Keyboard} from 'react-native';
-import {
-  RegisterInput,
-  RegisterInputCode,
-} from '../components/Inputs/RegisterInput';
+import {Keyboard, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import RegisterButton from '../components/Buttons/RegisterButton';
-import Logo from '../assets/LOGO.svg';
+import {RegisterInput} from '../components/Inputs/RegisterInput';
 import {useState, useEffect} from 'react';
-
-export default function Register() {
+import Logo from '../assets/LOGO.svg';
+import LoginButton from '../components/Buttons/LoginButton';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+export default function Login() {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -34,7 +31,7 @@ export default function Register() {
   let logo;
 
   if (!isKeyboardVisible) {
-    logo = <Logo style={{marginTop: 40}} width={400} height={100}></Logo>;
+    logo = <Logo style={{marginTop: 100}} width={420} height={120}></Logo>;
   } else {
     logo = <></>;
   }
@@ -43,12 +40,15 @@ export default function Register() {
       style={{
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: '#ECECEC',
       }}>
+      {logo}
+      <Text style={{color: '#187B63', fontSize: 34, marginTop: 30}}>
+        Bem vindo!
+      </Text>
       <SafeAreaView
         style={{
-          flex: 1,
+          marginTop: 30,
           width: '60%',
           marginLeft: 100,
           marginRight: 100,
@@ -56,24 +56,25 @@ export default function Register() {
           justifyContent: 'center',
           gap: 10,
         }}>
-        {logo}
-      </SafeAreaView>
-      <SafeAreaView
-        style={{
-          flex: 4,
-          width: '60%',
-          marginLeft: 100,
-          marginRight: 100,
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 10,
-        }}>
-        <RegisterInput name={'Nome'}></RegisterInput>
-        <RegisterInput name={'Email'}></RegisterInput>
-        <RegisterInput name={'Data de Nasc'}></RegisterInput>
-        <RegisterInput name={'Senha'}></RegisterInput>
-        <RegisterInputCode name={'Código'}></RegisterInputCode>
-        <RegisterButton />
+        <RegisterInput name={'Email'} />
+        <RegisterInput name={'Senha'} />
+        <LoginButton />
+        <TouchableOpacity>
+          <Text
+            style={{
+              textDecorationLine: 'underline',
+              fontSize: 18,
+              color: '#187B63',
+            }}>
+            Esqueci a Senha
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            marginTop: 25,
+          }}>
+          <Text style={{fontSize: 20}}>Voltar</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
   );
