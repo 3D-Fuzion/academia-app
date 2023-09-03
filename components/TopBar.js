@@ -5,6 +5,7 @@ import Menu from '../assets/menu';
 
 import TreinoDoDia from '../assets/screen_titles/treinododia';
 import Atletas from '../assets/screen_titles/atletas';
+import Payment from '../assets/screen_titles/fatura';
 export default function TopBar({method, variable, screenTitle}) {
   let title;
   function TriggerMethod() {
@@ -14,6 +15,8 @@ export default function TopBar({method, variable, screenTitle}) {
     title = <TreinoDoDia width={150} height={150} />;
   } else if (screenTitle == 'atletas') {
     title = <Atletas width={80} height={80} />;
+  } else if (screenTitle == 'pagamento') {
+    title = <Payment width={80} height={80} />;
   }
   return (
     <>
