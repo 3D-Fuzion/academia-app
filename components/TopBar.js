@@ -7,6 +7,7 @@ import TreinoDoDia from '../assets/screen_titles/treinododia';
 import Atletas from '../assets/screen_titles/atletas';
 import Payment from '../assets/screen_titles/fatura';
 import Feed from '../assets/screen_titles/logo';
+import Calendario from '../assets/screen_titles/calendario';
 export default function TopBar({method, variable, screenTitle}) {
   let title;
   function TriggerMethod() {
@@ -20,6 +21,8 @@ export default function TopBar({method, variable, screenTitle}) {
     title = <Payment width={80} height={80} />;
   } else if (screenTitle == 'feed') {
     title = <Feed width={150} height={150} />;
+  } else if (screenTitle == 'calendario') {
+    title = <Calendario width={105} height={150} />;
   }
   return (
     <>
