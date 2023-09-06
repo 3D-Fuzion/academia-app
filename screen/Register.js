@@ -58,7 +58,8 @@ export default function Register({navigation}) {
         academycode: code,
         birthDate: birthDate,
       })
-      .then(() => {
+      .then(res => {
+        console.log(res);
         navigation.navigate('Login');
       })
       .catch(err => {
