@@ -2,9 +2,14 @@ import {TextInput, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-export default function RegisterButton() {
+export default function RegisterButton({method}) {
+  function TriggerMethod() {
+    method();
+  }
+
   return (
     <TouchableOpacity
+      onPress={TriggerMethod}
       style={{
         height: 70,
         width: '100%',

@@ -21,7 +21,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Calendar"
+        initialRouteName="Register"
         screenOptions={{
           headerShown: false,
         }}>

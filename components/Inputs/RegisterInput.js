@@ -7,25 +7,30 @@ export function RegisterInput({name, method}) {
       placeholder={name}
       style={{
         textAlign: 'center',
-        height: 70,
+        height: 60,
         fontSize: 18,
-        width: '100%',
+        width: 230,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 100,
         backgroundColor: '#D8D8D8',
       }}
+      maxLength={128}
     />
   );
 }
 
-export function RegisterInputCode(props) {
+export function RegisterInputCode({name, method}) {
+  function RefreshValue(value) {
+    method(value);
+  }
+
   return (
     <TextInput
-      placeholder={props.name}
+      placeholder={name}
       style={{
         textAlign: 'center',
-        height: 70,
+        height: 60,
         fontSize: 18,
         width: '100%',
         alignItems: 'center',
@@ -35,6 +40,8 @@ export function RegisterInputCode(props) {
         borderColor: '#187B63',
         backgroundColor: '#D8D8D8',
       }}
+      maxLength={8}
+      onChangeText={text => RefreshValue(text)}
     />
   );
 }
