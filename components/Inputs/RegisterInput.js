@@ -32,7 +32,7 @@ export function RegisterInputCode({name, method}) {
         textAlign: 'center',
         height: 60,
         fontSize: 18,
-        width: '100%',
+        width: 230,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 100,

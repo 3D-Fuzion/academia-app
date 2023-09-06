@@ -21,6 +21,11 @@ export default function Register({navigation}) {
   const [cpf, setCpf] = useState('');
   const [modalIsNotOpen, setFirstOpen] = useState(true);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    api.get('/manager/solicitation').then(res => console.log(res.data));
+  });
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -118,7 +123,7 @@ export default function Register({navigation}) {
         <SafeAreaView
           style={{
             alignItems: 'center',
-            width: '100%',
+            width: 230,
             height: 60,
             borderRadius: 100,
             justifyContent: 'center',
