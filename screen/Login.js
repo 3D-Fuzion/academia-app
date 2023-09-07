@@ -5,6 +5,8 @@ import Logo from '../assets/LOGO.svg';
 import LoginButton from '../components/Buttons/LoginButton';
 import api from '../services/Api';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as KeyChain from 'react-native-keychain';
+
 export default function Login({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -42,8 +44,10 @@ export default function Login({ navigation }) {
       .post('/login', {
         email: email,
         password: password,
-      }).then(res => {
+      }).then(async res => {
         if (res.status === 200) {
+          await KeyChain.resetGenericPassword();
+          await KeyChain.setGenericPassword(email, res.data.token);
           navigation.navigate("Feed");
         }
       }).catch(err => {
@@ -53,7 +57,7 @@ export default function Login({ navigation }) {
         if (err.response.status === 404) {
           Alert.alert("Cadastro não encontrado", "Não conseguimos achar o seu cadastro, verique o email digitado");
         }
-        if (err.response.status === 403)  {
+        if (err.response.status === 403) {
           Alert.alert("Aceite em andamento", "Aguarde até que alguém aceite o seu pedido de inscrição");
         }
       });
