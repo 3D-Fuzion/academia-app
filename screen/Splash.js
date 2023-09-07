@@ -18,8 +18,6 @@ export default function Intro({navigation}) {
     navigation.navigate("Login");
   }
 
-
-
   return (
     <SafeAreaView
       style={{
