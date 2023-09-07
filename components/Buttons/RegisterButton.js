@@ -3,13 +3,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function RegisterButton({method}) {
-  function TriggerMethod() {
-    method();
-  }
-
   return (
     <TouchableOpacity
-      onPress={TriggerMethod}
+      onPress={() => method()}
       style={{
         height: 70,
         width: '100%',

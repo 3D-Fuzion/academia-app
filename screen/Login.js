@@ -1,11 +1,11 @@
-import {Keyboard, Text} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {RegisterInput} from '../components/Inputs/RegisterInput';
-import {useState, useEffect} from 'react';
+import { Keyboard, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useEffect } from 'react';
 import Logo from '../assets/LOGO.svg';
 import LoginButton from '../components/Buttons/LoginButton';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-export default function Login() {
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import CreateAccountButton from '../components/Buttons/CreateAccountButton';
+export default function Login({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -30,8 +30,13 @@ export default function Login() {
 
   let logo;
 
+  function Register() {
+    console.log("Goinng to Register Screen")
+    navigation.navigate("Register");
+  }
+
   if (!isKeyboardVisible) {
-    logo = <Logo style={{marginTop: 100}} width={420} height={120}></Logo>;
+    logo = <Logo style={{ marginTop: 100 }} width={420} height={120}></Logo>;
   } else {
     logo = <></>;
   }
@@ -40,10 +45,10 @@ export default function Login() {
       style={{
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#ECECEC',
+        backgroundColor: 'white',
       }}>
       {logo}
-      <Text style={{color: '#187B63', fontSize: 34, marginTop: 30}}>
+      <Text style={{ color: '#187B63', fontSize: 34, marginTop: 30 }}>
         Bem vindo!
       </Text>
       <SafeAreaView
@@ -56,9 +61,8 @@ export default function Login() {
           justifyContent: 'center',
           gap: 10,
         }}>
-        <RegisterInput name={'Email'} />
-        <RegisterInput name={'Senha'} />
         <LoginButton />
+        <CreateAccountButton  createMethod={Register}/>
         <TouchableOpacity>
           <Text
             style={{
@@ -73,7 +77,7 @@ export default function Login() {
           style={{
             marginTop: 25,
           }}>
-          <Text style={{fontSize: 20}}>Voltar</Text>
+          <Text style={{ fontSize: 20 }}>Voltar</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>

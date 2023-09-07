@@ -1,14 +1,10 @@
 import {Image, Text, TextInput, Keyboard} from 'react-native';
-import {
-  RegisterInput,
-  RegisterInputCode,
-} from '../components/Inputs/RegisterInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import RegisterButton from '../components/Buttons/RegisterButton';
 import Logo from '../assets/LOGO.svg';
 import {useState, useEffect} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import api from '../services/Api';
 export default function Register({navigation}) {
@@ -16,15 +12,11 @@ export default function Register({navigation}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState();
   const [birthDate, setBirthDate] = useState(new Date());
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [cpf, setCpf] = useState('');
   const [modalIsNotOpen, setFirstOpen] = useState(true);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    api.get('/manager/solicitation').then(res => console.log(res.data));
-  });
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -54,18 +46,21 @@ export default function Register({navigation}) {
   }
 
   function Register() {
+    console.log('Registered');
+    console.log(name, email, password, cpf, birthDate, code);
     api
-      .post('login', {
+      .post('/user', {
         name: name,
         email: email,
         password: password,
         cpf: cpf,
         academycode: code,
-        birthDate: birthDate,
+        birthdate: birthDate,
       })
       .then(res => {
-        console.log(res);
-        navigation.navigate('Login');
+        if (res.status == 201) {
+          navigation.navigate('Login');
+        }
       })
       .catch(err => {
         console.error('ops! ocorreu um erro' + err);
@@ -117,9 +112,74 @@ export default function Register({navigation}) {
           justifyContent: 'center',
           gap: 10,
         }}>
-        <RegisterInput name={'Nome'} method={setName}></RegisterInput>
-        <RegisterInput name={'Email'} method={setEmail}></RegisterInput>
-
+        <TextInput
+          placeholder="Nome"
+          onChangeText={text => {
+            setName(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={128}
+        />
+        <TextInput
+          placeholder="Email"
+          onChangeText={text => {
+            setEmail(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={128}
+        />
+        <TextInput
+          placeholder="Senha"
+          onChangeText={text => {
+            setPassword(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={128}
+        />
+        <TextInput
+          placeholder="CPF"
+          onChangeText={text => {
+            setCpf(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={128}
+        />
         <SafeAreaView
           style={{
             alignItems: 'center',
@@ -150,10 +210,30 @@ export default function Register({navigation}) {
           )}
         </SafeAreaView>
 
-        <RegisterInput name={'Senha'} method={setPassword}></RegisterInput>
-        <RegisterInput name={'Cpf'} method={setCpf}></RegisterInput>
-        <RegisterInputCode name={'Código'} method={setCode}></RegisterInputCode>
-        <RegisterButton method={Register} />
+        <TextInput
+          placeholder="Codigo Academia"
+          onChangeText={text => {
+            setCode(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            borderWidth: 1,
+            borderColor: '#187B63',
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={8}
+        />
+        <RegisterButton
+          method={() => {
+            Register();
+          }}
+        />
       </SafeAreaView>
     </SafeAreaView>
   );
