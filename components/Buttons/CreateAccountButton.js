@@ -1,10 +1,10 @@
-import { Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Text} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-export default function LoginButton({ method }) {
-  return (
-    <TouchableOpacity
-      onPress={() => { method() }}
+export default function CreateAccountButton({createMethod}) { 
+return ( 
+ <TouchableOpacity
+      onPress={() => {createMethod()}}
       style={{
         height: 54,
         width: 225,
@@ -14,19 +14,21 @@ export default function LoginButton({ method }) {
         paddingLeft: 50,
         paddingRight: 50,
         borderRadius: 100,
-        backgroundColor: '#187B63',
+        backgroundColor: '#ECECEC',
       }}>
       <Text
-        style={{
+        style={{ 
           textAlign: 'center',
           width: '100%',
           marginLeft: 30,
           marginRight: 30,
-          color: 'white',
-          fontSize: 24,
+          color: '#A4A4A4',
+          fontSize: 22,
         }}>
-        Entrar
+        Cadastre-se
       </Text>
     </TouchableOpacity>
-  );
+
+);
 }
+
