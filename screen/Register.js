@@ -76,10 +76,6 @@ export default function Register({ navigation }) {
         if (err.response.data.errorCode === "4") {
           Alert.alert("Academia nao encontrada", "Verifique o codigo digitado")
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> cafca3f6ef732e06c219c7f99db85de644c21cc5
       });
   }
 
