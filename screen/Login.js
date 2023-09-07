@@ -1,4 +1,4 @@
-import { Keyboard, Text } from 'react-native';
+import { Keyboard, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import Logo from '../assets/LOGO.svg';
@@ -34,7 +34,10 @@ export default function Login({ navigation }) {
     console.log("Goinng to Register Screen")
     navigation.navigate("Register");
   }
-
+  function Return() {
+    console.log("Goinng to Splash Screen")
+    navigation.navigate("Splash");
+  }
   if (!isKeyboardVisible) {
     logo = <Logo style={{ marginTop: 100 }} width={420} height={120}></Logo>;
   } else {
@@ -61,8 +64,43 @@ export default function Login({ navigation }) {
           justifyContent: 'center',
           gap: 10,
         }}>
+        <TextInput
+          placeholder="Email"
+          onChangeText={text => {
+            setPassword(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={128}
+        />
+
+        <TextInput
+          placeholder="Senha"
+          onChangeText={text => {
+            setPassword(text);
+          }}
+          style={{
+            textAlign: 'center',
+            height: 60,
+            fontSize: 18,
+            width: 230,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            backgroundColor: '#D8D8D8',
+          }}
+          maxLength={128}
+        />
+
         <LoginButton />
-        <CreateAccountButton  createMethod={Register}/>
         <TouchableOpacity>
           <Text
             style={{
@@ -74,6 +112,7 @@ export default function Login({ navigation }) {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={Return}
           style={{
             marginTop: 25,
           }}>

@@ -1,9 +1,10 @@
-import {Text} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function LoginButton() {
+export default function LoginButton({ method }) {
   return (
     <TouchableOpacity
+      onPress={() => { method() }}
       style={{
         height: 54,
         width: 225,
@@ -16,7 +17,7 @@ export default function LoginButton() {
         backgroundColor: '#187B63',
       }}>
       <Text
-        style={{ 
+        style={{
           textAlign: 'center',
           width: '100%',
           marginLeft: 30,
