@@ -1,19 +1,13 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Image, Modal} from 'react-native';
+import {Text, Modal} from 'react-native';
 import {useState} from 'react';
 
-import Perfil from '../assets/screen_titles/perfil';
-
-import Sino from '../assets/sino';
-import Menu from '../assets/menu';
 import Calendario from '../assets/menu/calendario';
 import Atletas from '../assets/menu/atletas';
 import CheckInIcon from '../assets/menu/checkin';
 import Pagamento from '../assets/menu/pagamento';
-import ScreenTitle from '../assets/screen_titles/recorde';
 import Recorde from '../assets/menu/recorde';
 import Sair from '../assets/menu/sair';
-import {transform} from 'typescript';
 import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
@@ -79,7 +73,6 @@ export default function Record() {
                 </Text>
               </SafeAreaView>
             </TouchableOpacity>
-            <RecordButton title={"Teste"}/> 
             <TouchableOpacity>
               <SafeAreaView
                 style={{
@@ -152,61 +145,23 @@ export default function Record() {
             </TouchableOpacity>
           </SafeAreaView>
         </Modal>
-        <TopBar method={SwitchModal} variable={menuModal}></TopBar>
+        <TopBar screenTitle= {"recorde"} method={SwitchModal} variable={menuModal}></TopBar>
       </SafeAreaView>
       <SafeAreaView
         style={{
           flex: 12,
           width: '100%',
-          gap: 10,
+          gap: 5,
+          justifyContent: "center",
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-        
-        <TouchableOpacity>
-          <SafeAreaView
-            style={{
-              flexDirection: 'row',
-
-              width: 224,
-              height: 54,
-              borderRadius: 100,
-              backgroundColor: '#187B63',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 28,
-                color: 'white',
-              }}>
-              Gymnastic
-            </Text>
-          </SafeAreaView>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <SafeAreaView
-            style={{
-              flexDirection: 'row',
-
-              width: 224,
-              height: 54,
-              borderRadius: 100,
-              backgroundColor: '#187B63',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 28,
-                color: 'white',
-              }}>
-              Endurance
-            </Text>
-          </SafeAreaView>
-        </TouchableOpacity>
+       <RecordButton title={"Barbell"}/> 
+       <RecordButton title={"Endurance"}/>  
+       <RecordButton title={"Girls"}/>  
+       <RecordButton title={"Gymnastic"}/>  
+       <RecordButton title={"Notables"}/>  
+       <RecordButton title={"The Heroes"}/>  
       </SafeAreaView>
       <CommandBar />
     </SafeAreaView>
