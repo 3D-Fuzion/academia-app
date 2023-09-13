@@ -17,6 +17,8 @@ import {transform} from 'typescript';
 import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
+import RecordButton from '../components/Buttons/RecordButton'; 
+
 export default function Record() {
   const [menuModal, setMenuModal] = useState(false);
   function SwitchModal() {
@@ -77,7 +79,7 @@ export default function Record() {
                 </Text>
               </SafeAreaView>
             </TouchableOpacity>
-
+            <RecordButton title={"Teste"}/> 
             <TouchableOpacity>
               <SafeAreaView
                 style={{
@@ -160,28 +162,7 @@ export default function Record() {
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-        <TouchableOpacity>
-          <SafeAreaView
-            style={{
-              flexDirection: 'row',
-              marginTop: 40,
-              width: 224,
-              height: 54,
-              borderRadius: 100,
-              backgroundColor: '#187B63',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 28,
-                color: 'white',
-              }}>
-              Barbell
-            </Text>
-          </SafeAreaView>
-        </TouchableOpacity>
+        
         <TouchableOpacity>
           <SafeAreaView
             style={{
