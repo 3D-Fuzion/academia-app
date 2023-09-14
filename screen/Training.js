@@ -1,6 +1,6 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView} from "react-native";
 import { Text, Modal } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import Calendario from '../assets/menu/calendario';
 import Atletas from '../assets/menu/atletas';
 import CheckInIcon from '../assets/menu/checkin';
@@ -12,9 +12,24 @@ import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
 import TrainingTitle from "../components/TrainingTitle";
 import { useRoute } from "@react-navigation/native";
+import ExerciceContainer from '../components/ExerciceContainer'; 
+import api from '../services/Api'
 export default function Training({ navigation }) {
   const { params } = useRoute();
   const [menuModal, setMenuModal] = useState(false);
+  const [trainings, setTrainings] = useState([]); 
+
+  useEffect(() => {
+    LoadTrainings(); 
+  }, []) 
+
+  function LoadTrainings() {
+    api.get("/training?category=" + params.title)
+      .then((res) => {
+        setTrainings(res.data)
+      })
+  } 
+
   function SwitchModal() {
     if (menuModal === false) {
       setMenuModal(true);
@@ -24,6 +39,8 @@ export default function Training({ navigation }) {
       console.log('Modal fechado');
     }
   }
+
+
   return (
     <SafeAreaView
       style={{
@@ -165,12 +182,18 @@ export default function Training({ navigation }) {
         style={{
           flex: 12,
           width: '100%',
-          gap: 5,
           justifyContent: "center",
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-      </SafeAreaView>
+<SafeAreaView style={{marginTop: 30, width:"90%"}}>
+<ScrollView style={{showVerticalScrollIndicator: false}}>
+{
+  trainings.map((training) => <ExerciceContainer title={training.name} weight={training.weight} key={training.id}/>)
+}
+</ScrollView>
+</SafeAreaView>
+          </SafeAreaView>
       <CommandBar />
     </SafeAreaView>
   );
