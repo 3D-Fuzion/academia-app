@@ -1,19 +1,19 @@
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Modal} from 'react-native';
-import {useState} from 'react';
-
+import { SafeAreaView } from "react-native";
+import { Text, Modal } from 'react-native';
+import { useState } from 'react';
 import Calendario from '../assets/menu/calendario';
 import Atletas from '../assets/menu/atletas';
 import CheckInIcon from '../assets/menu/checkin';
 import Pagamento from '../assets/menu/pagamento';
 import Recorde from '../assets/menu/recorde';
 import Sair from '../assets/menu/sair';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
-import RecordButton from '../components/Buttons/RecordButton'; 
-
-export default function Record({navigation}) {
+import TrainingTitle from "../components/TrainingTitle";
+import { useRoute } from "@react-navigation/native";
+export default function Training({ navigation }) {
+  const { params } = useRoute();
   const [menuModal, setMenuModal] = useState(false);
   function SwitchModal() {
     if (menuModal === false) {
@@ -24,11 +24,6 @@ export default function Record({navigation}) {
       console.log('Modal fechado');
     }
   }
-
-  function ViewTrainings(title) { 
-    navigation.navigate("Training", {title: title});
-  }
-
   return (
     <SafeAreaView
       style={{
@@ -43,7 +38,7 @@ export default function Record({navigation}) {
           alignItems: 'center',
         }}>
         <Modal
-          style={{backgroundColor: 'green'}}
+          style={{ backgroundColor: 'green' }}
           animationType="fade"
           transparent={true}
           visible={menuModal}
@@ -72,7 +67,7 @@ export default function Record({navigation}) {
                   alignItems: 'center',
                 }}>
                 <CheckInIcon width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Check List
                 </Text>
               </SafeAreaView>
@@ -85,7 +80,7 @@ export default function Record({navigation}) {
                   alignItems: 'center',
                 }}>
                 <Calendario width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Calendário
                 </Text>
               </SafeAreaView>
@@ -99,7 +94,7 @@ export default function Record({navigation}) {
                   alignItems: 'center',
                 }}>
                 <Recorde width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Recorde Pessoal
                 </Text>
               </SafeAreaView>
@@ -113,7 +108,7 @@ export default function Record({navigation}) {
                   alignItems: 'center',
                 }}>
                 <Atletas width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Atletas
                 </Text>
               </SafeAreaView>
@@ -127,7 +122,7 @@ export default function Record({navigation}) {
                   alignItems: 'center',
                 }}>
                 <Pagamento width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Pagamentos
                 </Text>
               </SafeAreaView>
@@ -142,14 +137,29 @@ export default function Record({navigation}) {
                   alignItems: 'center',
                 }}>
                 <Sair width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Sair
                 </Text>
               </SafeAreaView>
             </TouchableOpacity>
           </SafeAreaView>
         </Modal>
-        <TopBar screenTitle= {"recorde"} method={SwitchModal} variable={menuModal}></TopBar>
+        <TopBar screenTitle={"recorde"} method={SwitchModal} variable={menuModal}></TopBar>
+      </SafeAreaView>
+      <SafeAreaView style={{
+        height: 84,
+        width: "100%",
+        justifyContent:"center", 
+        alignItems:"center",
+        backgroundColor: "#187B63"
+      }}>
+        <Text style={{
+          fontSize: 32,
+          fontWeight: 300,
+          color: "white"
+        }}>
+          {params.title}
+        </Text>
       </SafeAreaView>
       <SafeAreaView
         style={{
@@ -160,12 +170,6 @@ export default function Record({navigation}) {
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-       <RecordButton method={ViewTrainings} title={"Barbell"}/> 
-       <RecordButton method={ViewTrainings} title={"Endurance"}/>  
-       <RecordButton method={ViewTrainings} title={"Girls"}/>  
-       <RecordButton method={ViewTrainings} title={"Gymnastic"}/>  
-       <RecordButton method={ViewTrainings} title={"Notables"}/>  
-       <RecordButton method={ViewTrainings} title={"The Heroes"}/>  
       </SafeAreaView>
       <CommandBar />
     </SafeAreaView>

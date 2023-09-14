@@ -8,6 +8,7 @@ import Atletas from '../assets/screen_titles/atletas';
 import Payment from '../assets/screen_titles/fatura';
 import Feed from '../assets/screen_titles/logo';
 import Calendario from '../assets/screen_titles/calendario';
+import Recorde from '../assets/screen_titles/recorde';
 export default function TopBar({method, variable, screenTitle}) {
   let title;
   function TriggerMethod() {
@@ -23,7 +24,11 @@ export default function TopBar({method, variable, screenTitle}) {
     title = <Feed width={150} height={150} />;
   } else if (screenTitle == 'calendario') {
     title = <Calendario width={105} height={150} />;
-  }
+  } else if (screenTitle == 'recorde') {
+    title = <Recorde width={180} height={150} />;
+  } 
+ 
+
   return (
     <>
       <SafeAreaView
