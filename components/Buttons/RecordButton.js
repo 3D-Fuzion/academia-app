@@ -1,7 +1,8 @@
 import { SafeAreaView, TouchableOpacity, Text } from "react-native"
-export default function RecordButton({ title }) {
+export default function RecordButton({ title, method }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity 
+      onPress={() => {method(title)}}>
       <SafeAreaView
         style={{
           flexDirection: 'row',

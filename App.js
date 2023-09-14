@@ -14,6 +14,7 @@ import Payment from './screen/Payment';
 import Atletas from './screen/Atletas';
 import Feed from './screen/Feed';
 import Calendar from './screen/Calendar';
+import Training from './screen/Training';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Training" component={Training} />
       </Stack.Navigator>
     </NavigationContainer>
   );
