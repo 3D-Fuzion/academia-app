@@ -6,6 +6,7 @@ import { useRoute } from "@react-navigation/native";
 import ExerciceContainer from '../components/ExerciceContainer';
 import api from '../services/Api'
 import SideModal from '../components/SideModal'
+import LoadingIcon from '../assets/status/loading'
 export default function Training({ navigation }) {
   const { params } = useRoute();
   const [menuModal, setMenuModal] = useState(false);
@@ -78,7 +79,7 @@ export default function Training({ navigation }) {
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-        {trainings.length === 0 ? <SafeAreaView><Text>Carregando</Text></SafeAreaView> :
+        {trainings.length === 0 ? <SafeAreaView><LoadingIcon/></SafeAreaView> :
           <SafeAreaView style={{ marginTop: 30, width: "90%" }}>
             <ScrollView style={{ showVerticalScrollIndicator: false }}>
               {
