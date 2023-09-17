@@ -2,34 +2,29 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Text, Modal } from 'react-native';
 import { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
-import { useRoute } from "@react-navigation/native";
 import ExerciceContainer from '../components/ExerciceContainer';
 import api from '../services/Api'
 import SideModal from '../components/SideModal'
 import LoadingIcon from '../assets/status/loading'
-export default function Training({ navigation }) {
-  const { params } = useRoute();
+export default function Training({ navigation, route }) {
   const [menuModal, setMenuModal] = useState(false);
   const [trainings, setTrainings] = useState([]);
 
-  useEffect(() => {
-    LoadTrainings();
-  }, [])
-
-  function LoadTrainings() {
-    api.get("/training?category=" + params.title)
-      .then((res) => {
-        setTrainings(res.data)
-      })
-  }
+  useEffect(() => { 
+    function LoadTrainings() {
+      api.get(`/training?category=${route.params.title}&userid=${1}`)
+        .then((res) => {
+          setTrainings(res.data)
+        })
+    }
+      LoadTrainings();
+  }, [""])
 
   function SwitchModal() {
     if (menuModal === false) {
       setMenuModal(true);
-      console.log('Modal aberto');
     } else {
       setMenuModal(false);
-      console.log('Modal fechado');
     }
   }
 
@@ -68,7 +63,7 @@ export default function Training({ navigation }) {
           fontWeight: 300,
           color: "white"
         }}>
-          {params.title}
+         {route.params.title}
         </Text>
       </SafeAreaView>
       <SafeAreaView
@@ -79,11 +74,11 @@ export default function Training({ navigation }) {
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-        {trainings.length === 0 ? <SafeAreaView><LoadingIcon/></SafeAreaView> :
+        {trainings.length === 0 ? <SafeAreaView><LoadingIcon/></SafeAreaView> : 
           <SafeAreaView style={{ marginTop: 30, width: "90%" }}>
-            <ScrollView style={{ showVerticalScrollIndicator: false }}>
+            <ScrollView>
               {
-                trainings.map((training) => <ExerciceContainer title={training.name} weight={training.weight} key={training.id} />)
+                trainings.map((training) => <ExerciceContainer title={training.name} weight={training.weight} key={training.id} id={training.id}/>)
               }
             </ScrollView>
           </SafeAreaView>

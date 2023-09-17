@@ -44,13 +44,16 @@ export default function Login({ navigation }) {
       .post('/login', {
         email: email,
         password: password,
-      }).then(async res => {
+      }).then(async (res) => {
         if (res.status === 200) {
+          console.log("Logged In"); 
           await KeyChain.resetGenericPassword();
           await KeyChain.setGenericPassword(email, res.data.token);
           navigation.navigate("Feed");
         }
-      }).catch(err => {
+      }).catch((error)=>{
+       console.log("Api call error");
+       alert(error.message);
         if (err.response.status === 400) {
           Alert.alert("Senha incorreta", "Verifique a senha digitada");
         }
@@ -60,7 +63,7 @@ export default function Login({ navigation }) {
         if (err.response.status === 403) {
           Alert.alert("Aceite em andamento", "Aguarde até que alguém aceite o seu pedido de inscrição");
         }
-      });
+  });
   }
 
   if (!isKeyboardVisible) {
@@ -109,6 +112,7 @@ export default function Login({ navigation }) {
 
         <TextInput
           placeholder="Senha"
+          secureTextEntry={true}
           onChangeText={text => {
             setPassword(text);
           }}

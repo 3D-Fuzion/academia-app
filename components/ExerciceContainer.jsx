@@ -1,20 +1,27 @@
-import { Text, SafeAreaView, TouchableOpacity, Modal, TextInput} from 'react-native'
+import { Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Alert} from 'react-native'
 import { useState } from 'react'
-import Api from "../services/Api"
-export default function ExerciceContainer({ title, weight }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [record, setRecord] = useState(""); 
+import api from "../services/Api"
+import * as Keychain from 'react-native-keychain';
 
-  function EditRecord() { 
-    Api.put("/training", {trainingid: })
-    .then((res) => {
-      if(res.status === 200){ 
-        console.log("Recorde Alterado");
-      }
-    }).catch(err => { 
-      console.log("Aconteceu um erro:" +err);
-    }); 
-    //TODO EDICAO DE RECORD
+export default function ExerciceContainer({ title, weight, id }) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [record, setRecord] = useState(0); 
+  const [localweight, setWeight] = useState(weight); 
+
+  async function SetRecord() { 
+    console.log("Tentando alterar o recorde"); 
+    const USER_ID = 1; 
+    const data = {userid: 1, weight: record, trainingid: id}
+    api.put("/training", data)
+      .then((res) => { 
+        if(res.status === 200) {
+           setModalVisible(!modalVisible); 
+           setWeight(record); 
+        }
+      })
+      .catch((err) => { 
+        Alert.alert("Ocorreu um erro!", err)
+      }) 
   }
 
   return (
@@ -32,9 +39,7 @@ export default function ExerciceContainer({ title, weight }) {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
+        onRequestClose={() => { setModalVisible(!modalVisible) }}>
         <SafeAreaView style=
         {{
           flex:1,
@@ -66,7 +71,7 @@ export default function ExerciceContainer({ title, weight }) {
         </SafeAreaView>
         <SafeAreaView>
           <TextInput 
-          onChangeText={text => setRecord(text)}
+          onChangeText={(text) => {setRecord(text)}}
           style=
           {{
             backgroundColor:"white", 
@@ -76,7 +81,7 @@ export default function ExerciceContainer({ title, weight }) {
         </SafeAreaView>
           <SafeAreaView style={{flexDirection: "row", gap: 30, justifyContent: "center"}}>
           <TouchableOpacity 
-          onPress={setModalVisible(!modalVisible)}
+          onPress={() => {setModalVisible(!modalVisible)}}
           style=
           {{
             marginTop: 20,
@@ -95,7 +100,7 @@ export default function ExerciceContainer({ title, weight }) {
             }}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity 
-          onPress={EditRecord()}
+          onPress={() => { SetRecord() }}
           style=
           {{
             marginTop: 20,
@@ -130,14 +135,14 @@ export default function ExerciceContainer({ title, weight }) {
       </SafeAreaView>
       <SafeAreaView style={{ flex: 1, height: "100%", alignItems: "center", justifyContent: "center", backgroundColor: "white" }}>
         <TouchableOpacity 
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => {setModalVisible(!modalVisible)}}
         style={{ width: "100%", height: "100%", justifyContent: "center", alignItems: "center", borderWidth: 1, borderRadius: 5 }}>
           <Text style={{
             fontSize: 18,
             lineHeight: 21.78,
             color: "black",
           }}>
-            {!weight ? "0" : weight}
+            {!localweight ? "0" : localweight}
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
