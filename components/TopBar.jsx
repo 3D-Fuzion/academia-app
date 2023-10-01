@@ -9,6 +9,7 @@ import Payment from '../assets/screen_titles/fatura';
 import Feed from '../assets/screen_titles/logo';
 import Calendario from '../assets/screen_titles/calendario';
 import Recorde from '../assets/screen_titles/recorde';
+import Perfil from '../assets/screen_titles/perfil';
 export default function TopBar({method, variable, screenTitle}) {
   let title;
   function TriggerMethod() {
@@ -26,6 +27,8 @@ export default function TopBar({method, variable, screenTitle}) {
     title = <Calendario width={105} height={150} />;
   } else if (screenTitle == 'recorde') {
     title = <Recorde width={180} height={150} />;
+  } else if (screenTitle == 'perfil') {
+    title = <Perfil width={105} height={105} />;
   } 
  
 

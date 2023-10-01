@@ -37,6 +37,17 @@ export default function EditModal({ visible, method, goto }) {
         <SafeAreaView style={{flex: 1}}>
           <Text style={{marginLeft: 15, marginTop:20, fontSize: 21, color: "#187B63"}}>Editar Perfil</Text>
         </SafeAreaView >
+          <TouchableOpacity onPress={() => method()} style={{
+            flex: 1, 
+            position: "absolute", 
+            transform: [{translateX: +262}, {translateY: -310}], 
+            backgroundColor: "#E0115F",
+            width:30,
+            height:30,
+            borderRadius: 30,
+            elevation: 10
+          }}> 
+          </TouchableOpacity>
         <EditField title={"Nome"}/>
         <EditField title={"Sexo"}/>
         <EditField title={"Data de nascimento"}/>
