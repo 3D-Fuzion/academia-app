@@ -18,10 +18,16 @@ import Sair from '../assets/menu/sair';
 import {transform} from 'typescript';
 import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
-export default function Profile() {
-  const [menuModal, setMenuModal] = useState(true);
-  let menu;
-  function SwitchModal() {
+import EditModal from '../components/EditModal';
+import SideModal from '../components/SideModal';
+import TopBar from '../components/TopBar'
+import EditProfile from '../assets/editprofile';
+
+export default function Profile({ navigation }) {
+  const [menuModal, setMenuModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+
+  function SwitchMenuModal() {
     if (menuModal === false) {
       setMenuModal(true);
       console.log('Modal aberto');
@@ -31,28 +37,18 @@ export default function Profile() {
     }
   }
 
-  if (menuModal) {
-    menu = (
-      <TouchableOpacity onPress={SwitchModal}>
-        <SafeAreaView
-          style={{
-            borderWidth: 8,
-            borderColor: '#1A4239',
-            borderRadius: 10,
-            backgroundColor: '#1A4239',
-          }}>
-          <Menu width={35} height={35} />
-        </SafeAreaView>
-      </TouchableOpacity>
-    );
-  } else {
-    menu = (
-      <TouchableOpacity onPress={SwitchModal}>
-        <SafeAreaView>
-          <Menu width={35} height={35} />
-        </SafeAreaView>
-      </TouchableOpacity>
-    );
+  function SwitchEditModal() {
+    if (editModal === false) {
+      setEditModal(true);
+      console.log('Modal aberto');
+    } else {
+      setEditModal(false);
+      console.log('Modal fechado');
+    }
+  }
+
+  function Navigate(name) {
+    navigation.navigate(name); 
   }
 
   return (
@@ -68,141 +64,12 @@ export default function Profile() {
           width: '100%',
           alignItems: 'center',
         }}>
-        <Modal
-          style={{backgroundColor: 'green'}}
-          animationType="fade"
-          transparent={true}
-          visible={menuModal}
-          onRequestClose={() => {
-            setMenuModal(!menuModal);
-          }}>
-          <SafeAreaView
-            style={{
-              alignSelf: 'flex-end',
-              flex: 1,
-              backgroundColor: '#187B63',
-              marginTop: 55,
-              paddingLeft: 20,
-              paddingTop: 50,
-              gap: 20,
-              marginBottom: 55,
-              borderTopLeftRadius: 40,
-              borderBottomLeftRadius: 40,
-              width: '85%',
-            }}>
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <CheckIn width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
-                  Check List
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Calendario width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
-                  Calendário
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Recorde width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
-                  Recorde Pessoal
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Atletas width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
-                  Atletas
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Pagamento width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
-                  Pagamentos
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={SwitchModal}>
-              <SafeAreaView
-                style={{
-                  marginTop: 50,
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Sair width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
-                  Sair
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-          </SafeAreaView>
-        </Modal>
-        <SafeAreaView
-          style={{
-            flex: 2,
-            width: '100%',
-            alignItems: 'center',
-          }}>
-          <SafeAreaView style={{alignSelf: 'flex-start', marginLeft: 30}}>
-            <Perfil width={80} height={80} />
-          </SafeAreaView>
-        </SafeAreaView>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 20,
-          }}>
-          <Sino width={35} height={35} />
-          <SafeAreaView
-            style={{width: 50, justifyContent: 'center', alignItems: 'center'}}>
-            {menu}
-          </SafeAreaView>
-        </SafeAreaView>
+      <SafeAreaView>
+        <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchMenuModal} goto={Navigate}/>
       </SafeAreaView>
+        <TopBar style={{flex:10}} screenTitle={"perfil"} method={SwitchMenuModal} variable={menuModal}/>
+      </SafeAreaView>
+      <EditModal  visible={editModal} method={SwitchEditModal}/>
       <SafeAreaView
         style={{
           flex: 12,
@@ -304,6 +171,11 @@ export default function Profile() {
                   <Coracao width={25} height={25} />
                 </SafeAreaView>
               </SafeAreaView>
+            </SafeAreaView>
+            <SafeAreaView style={{ position: "absolute" , transform: [{translateX: -150}, {translateY: 165}]}}>
+              <TouchableOpacity 
+                onPress={() => SwitchEditModal()}><EditProfile/>
+              </TouchableOpacity>
             </SafeAreaView>
             <Text style={{marginTop: 30}}>Aluno</Text>
             <Text style={{fontSize: 30, fontWeight: 'bold'}}>
