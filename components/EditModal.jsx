@@ -1,14 +1,21 @@
-import Calendario from '../assets/menu/calendario';
-import Atletas from '../assets/menu/atletas';
-import CheckInIcon from '../assets/menu/checkin';
-import Pagamento from '../assets/menu/pagamento';
-import Recorde from '../assets/menu/recorde';
-import Sair from '../assets/menu/sair';
 import { TouchableOpacity } from 'react-native';
+import NameEditModal from '../components/NameEditModal'
 import EditField from '../components/EditField';
+import {useState} from 'react';
 import { Modal, SafeAreaView, Text } from 'react-native'
-import { useState } from 'react';
 export default function EditModal({ visible, method, goto }) {
+  const [nameModal, setNameModal] = useState(false);
+
+  function SwitchNameModal() {
+    if (nameModal === false) {
+      setNameModal(true);
+      console.log('Modal aberto');
+    } else {
+      setNameModal(false);
+      console.log('Modal fechado');
+    }
+  }
+
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -48,7 +55,7 @@ export default function EditModal({ visible, method, goto }) {
             elevation: 10
           }}> 
           </TouchableOpacity>
-        <EditField title={"Nome"}/>
+        <EditField title={"Nome"} method={SwitchNameModal}/>
         <EditField title={"Sexo"}/>
         <EditField title={"Data de nascimento"}/>
         <EditField title={"Alterar senha"}/>
@@ -61,6 +68,7 @@ export default function EditModal({ visible, method, goto }) {
           }}/>
         </SafeAreaView>
       </Modal>
+      <NameEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchNameModal} visible={nameModal}/>
     </SafeAreaView>
   )
 }
