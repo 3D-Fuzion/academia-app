@@ -20,10 +20,10 @@ import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
 import EditModal from '../components/EditModal';
 import SideModal from '../components/SideModal';
-import TopBar from '../components/TopBar'
+import TopBar from '../components/TopBar';
 import EditProfile from '../assets/editprofile';
 
-export default function Profile({ navigation }) {
+export default function Profile({navigation}) {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
 
@@ -48,7 +48,7 @@ export default function Profile({ navigation }) {
   }
 
   function Navigate(name) {
-    navigation.navigate(name); 
+    navigation.navigate(name);
   }
 
   return (
@@ -64,12 +64,22 @@ export default function Profile({ navigation }) {
           width: '100%',
           alignItems: 'center',
         }}>
-      <SafeAreaView>
-        <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchMenuModal} goto={Navigate}/>
+        <SafeAreaView>
+          <SideModal
+            style={{display: 'none'}}
+            visible={menuModal}
+            method={SwitchMenuModal}
+            goto={Navigate}
+          />
+        </SafeAreaView>
+        <TopBar
+          style={{flex: 10}}
+          screenTitle={'perfil'}
+          method={SwitchMenuModal}
+          variable={menuModal}
+        />
       </SafeAreaView>
-        <TopBar style={{flex:10}} screenTitle={"perfil"} method={SwitchMenuModal} variable={menuModal}/>
-      </SafeAreaView>
-      <EditModal  visible={editModal} method={SwitchEditModal}/>
+      <EditModal visible={editModal} method={SwitchEditModal} />
       <SafeAreaView
         style={{
           flex: 12,
@@ -172,9 +182,13 @@ export default function Profile({ navigation }) {
                 </SafeAreaView>
               </SafeAreaView>
             </SafeAreaView>
-            <SafeAreaView style={{ position: "absolute" , transform: [{translateX: -150}, {translateY: 165}]}}>
-              <TouchableOpacity 
-                onPress={() => SwitchEditModal()}><EditProfile/>
+            <SafeAreaView
+              style={{
+                position: 'absolute',
+                transform: [{translateX: -150}, {translateY: 165}],
+              }}>
+              <TouchableOpacity onPress={() => SwitchEditModal()}>
+                <EditProfile />
               </TouchableOpacity>
             </SafeAreaView>
             <Text style={{marginTop: 30}}>Aluno</Text>

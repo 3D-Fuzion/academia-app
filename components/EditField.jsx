@@ -8,7 +8,7 @@ import EditProfile from '../assets/editprofile';
 import { TouchableOpacity } from 'react-native';
 import { Modal, SafeAreaView, Text } from 'react-native'
 import { useState } from 'react';
-export default function EditField({ title }) {
+export default function EditField({ title, method}) {
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -27,7 +27,8 @@ export default function EditField({ title }) {
 	    		<Text style={{fontSize: 18}}>{title}</Text>
 	    	</SafeAreaView>
     		<SafeAreaView>
-	    		<TouchableOpacity style={{backgroundColor: "transparent"}}>
+	    		<TouchableOpacity style={{backgroundColor: "transparent"}}
+          onPress={() => method()}>
 	    			<EditProfile/>
 	    		</TouchableOpacity>	
     		</SafeAreaView>	

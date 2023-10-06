@@ -1,13 +1,13 @@
-import { Keyboard, Text, TextInput, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useEffect } from 'react';
+import {Keyboard, Text, TextInput, Alert} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useState, useEffect} from 'react';
 import Logo from '../assets/LOGO.svg';
 import LoginButton from '../components/Buttons/LoginButton';
 import api from '../services/Api';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import * as KeyChain from 'react-native-keychain';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login({ navigation }) {
+export default function Login({navigation}) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,13 +16,13 @@ export default function Login({ navigation }) {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        setKeyboardVisible(true); // or some other action
+        setKeyboardVisible(true);
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
-        setKeyboardVisible(false); // or some other action
+        setKeyboardVisible(false);
       },
     );
 
@@ -35,8 +35,8 @@ export default function Login({ navigation }) {
   let logo;
 
   function Return() {
-    console.log("Goinng to Splash Screen")
-    navigation.navigate("Splash");
+    console.log('Goinng to Splash Screen');
+    navigation.navigate('Splash');
   }
 
   function LogIn() {
@@ -44,30 +44,34 @@ export default function Login({ navigation }) {
       .post('/login', {
         email: email,
         password: password,
-      }).then(async (res) => {
-        if (res.status === 200) {
-          console.log("Logged In"); 
-          await KeyChain.resetGenericPassword();
-          await KeyChain.setGenericPassword(email, res.data.token);
-          navigation.navigate("Feed");
+      })
+      .then(res => {
+        AsyncStorage.setItem('token', res.data.token);
+        AsyncStorage.setItem('id', res.data.id);
+        navigation.navigate('Feed');
+      })
+      .catch(error => {
+        console.log(error.response);
+        if (error.response.status === 400) {
+          Alert.alert('Senha incorreta', 'Verifique a senha digitada');
         }
-      }).catch((error)=>{
-       console.log("Api call error");
-       alert(error.message);
-        if (err.response.status === 400) {
-          Alert.alert("Senha incorreta", "Verifique a senha digitada");
+        if (error.response.status === 404) {
+          Alert.alert(
+            'Cadastro não encontrado',
+            'Não conseguimos achar o seu cadastro, verique o email digitado',
+          );
         }
-        if (err.response.status === 404) {
-          Alert.alert("Cadastro não encontrado", "Não conseguimos achar o seu cadastro, verique o email digitado");
+        if (error.response.status === 403) {
+          Alert.alert(
+            'Aceite em andamento',
+            'Aguarde até que alguém aceite o seu pedido de inscrição',
+          );
         }
-        if (err.response.status === 403) {
-          Alert.alert("Aceite em andamento", "Aguarde até que alguém aceite o seu pedido de inscrição");
-        }
-  });
+      });
   }
 
   if (!isKeyboardVisible) {
-    logo = <Logo style={{ marginTop: 100 }} width={420} height={120}></Logo>;
+    logo = <Logo style={{marginTop: 100}} width={420} height={120}></Logo>;
   } else {
     logo = <></>;
   }
@@ -79,7 +83,7 @@ export default function Login({ navigation }) {
         backgroundColor: 'white',
       }}>
       {logo}
-      <Text style={{ color: '#187B63', fontSize: 34, marginTop: 30 }}>
+      <Text style={{color: '#187B63', fontSize: 34, marginTop: 30}}>
         Bem vindo!
       </Text>
       <SafeAreaView
@@ -145,7 +149,7 @@ export default function Login({ navigation }) {
           style={{
             marginTop: 25,
           }}>
-          <Text style={{ fontSize: 20 }}>Voltar</Text>
+          <Text style={{fontSize: 20}}>Voltar</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
