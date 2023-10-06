@@ -1,13 +1,25 @@
 import { TouchableOpacity } from 'react-native';
 import NameEditModal from '../components/NameEditModal'
 import SexEditModal from '../components/SexEditModal'
+import EffectPhraseEditModal from '../components/EffectPhraseEditModal'
 import EditField from '../components/EditField';
 import {useState} from 'react';
 import { Modal, SafeAreaView, Text } from 'react-native'
 export default function EditModal({ visible, method, goto }) {
   const [nameModal, setNameModal] = useState(false);
   const [sexModal, setSexModal] = useState(false);
+  const [effectPhraseModal, setEffectPhraseModal] = useState(false);
 
+  function SwitchEffectPhraseModal() {
+    if (effectPhraseModal === false) {
+      setEffectPhraseModal(true);
+      console.log('Modal aberto');
+    } else {
+      setEffectPhraseModal(false);
+      console.log('Modal fechado');
+    }
+  }
+  
   function SwitchSexModal() {
     if (sexModal === false) {
       setSexModal(true);
@@ -71,7 +83,7 @@ export default function EditModal({ visible, method, goto }) {
         <EditField title={"Sexo"} method={SwitchSexModal}/>
         <EditField title={"Data de nascimento"}/>
         <EditField title={"Alterar senha"}/>
-        <EditField title={"Frase de efeito"}/>
+        <EditField title={"Frase de efeito"} method={SwitchEffectPhraseModal}/>
           <SafeAreaView style={{
             backgroundColor:"#187B63", 
             height: 31, 
@@ -82,6 +94,7 @@ export default function EditModal({ visible, method, goto }) {
       </Modal>
       <NameEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchNameModal} visible={nameModal}/>
       <SexEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchSexModal} visible={sexModal}/>
+      <EffectPhraseEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchEffectPhraseModal} visible={effectPhraseModal}/>
     </SafeAreaView>
   )
 }
