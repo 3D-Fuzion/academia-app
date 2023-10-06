@@ -5,7 +5,6 @@ import Logo from '../assets/LOGO.svg';
 import LoginButton from '../components/Buttons/LoginButton';
 import api from '../services/Api';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
@@ -47,8 +46,8 @@ export default function Login({navigation}) {
         password: password,
       })
       .then(res => {
-        console.log(res.data.token);
-        AsyncStorage.setItem('id', res.data.token);
+        AsyncStorage.setItem('token', res.data.token);
+        AsyncStorage.setItem('id', res.data.id);
         navigation.navigate('Feed');
       })
       .catch(error => {
