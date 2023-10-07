@@ -48,6 +48,7 @@ export default function Login({navigation}) {
       .then(res => {
         AsyncStorage.setItem('token', res.data.token);
         AsyncStorage.setItem('id', res.data.id);
+        AsyncStorage.setItem('email', res.data.email);
         navigation.navigate('Feed');
       })
       .catch(error => {
