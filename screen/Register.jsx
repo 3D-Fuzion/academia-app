@@ -1,10 +1,8 @@
-import { Image, Text, TextInput, Keyboard, Alert } from 'react-native';
+import { Text, TextInput, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import RegisterButton from '../components/Buttons/RegisterButton';
 import Logo from '../assets/LOGO.svg';
 import { useState, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import api from '../services/Api';
 export default function Register({ navigation }) {
