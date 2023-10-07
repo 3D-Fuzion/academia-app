@@ -5,11 +5,23 @@ import EffectPhraseEditModal from '../components/EffectPhraseEditModal'
 import EditField from '../components/EditField';
 import {useState} from 'react';
 import { Modal, SafeAreaView, Text } from 'react-native'
+import PasswordEditModal from './PasswordEditModal';
 export default function EditModal({ visible, method, goto }) {
   const [nameModal, setNameModal] = useState(false);
   const [sexModal, setSexModal] = useState(false);
   const [effectPhraseModal, setEffectPhraseModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
 
+  function SwitchPasswordModal() {
+    if (passwordModal === false) {
+      setPasswordModal(true);
+      console.log('Modal aberto');
+    } else {
+      setPasswordModal(false);
+      console.log('Modal fechado');
+    }
+  }
+ 
   function SwitchEffectPhraseModal() {
     if (effectPhraseModal === false) {
       setEffectPhraseModal(true);
@@ -82,7 +94,7 @@ export default function EditModal({ visible, method, goto }) {
         <EditField title={"Nome"} method={SwitchNameModal}/>
         <EditField title={"Sexo"} method={SwitchSexModal}/>
         <EditField title={"Data de nascimento"}/>
-        <EditField title={"Alterar senha"}/>
+        <EditField title={"Alterar senha"} method={SwitchPasswordModal}/>
         <EditField title={"Frase de efeito"} method={SwitchEffectPhraseModal}/>
           <SafeAreaView style={{
             backgroundColor:"#187B63", 
@@ -95,6 +107,7 @@ export default function EditModal({ visible, method, goto }) {
       <NameEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchNameModal} visible={nameModal}/>
       <SexEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchSexModal} visible={sexModal}/>
       <EffectPhraseEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchEffectPhraseModal} visible={effectPhraseModal}/>
+      <PasswordEditModal style={{alignSelf: "center", justifyContent: "center"}} method={SwitchPasswordModal} visible={passwordModal}/>
     </SafeAreaView>
   )
 }
