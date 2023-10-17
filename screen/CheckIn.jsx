@@ -1,14 +1,8 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Image, Modal} from 'react-native';
-import {useState} from 'react';
-
-import Perfil from '../assets/screen_titles/perfil';
-
+import {Text, Modal, Alert} from 'react-native';
+import {useEffect, useState} from 'react';
 import Sino from '../assets/sino';
 import Menu from '../assets/menu';
-import Coracao from '../assets/coracao';
-import Estrela from '../assets/estrela';
-import Check from '../assets/check';
 import Calendario from '../assets/menu/calendario';
 import Atletas from '../assets/menu/atletas';
 import CheckInIcon from '../assets/menu/checkin';
@@ -16,14 +10,18 @@ import Pagamento from '../assets/menu/pagamento';
 import ScreenTitle from '../assets/screen_titles/checkin';
 import Recorde from '../assets/menu/recorde';
 import Sair from '../assets/menu/sair';
-import {transform} from 'typescript';
 import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
 import {ScrollView} from 'react-native';
 import CheckInContainer from '../components/Containers/CheckInContainer';
+import api from '../services/Api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function CheckIn() {
   const [menuModal, setMenuModal] = useState(false);
+  const [lessons, setLessons] = useState([]);
+  const [userid, setUserId] = useState('');
   let menu;
+
   function SwitchModal() {
     if (menuModal === false) {
       setMenuModal(true);
@@ -32,6 +30,86 @@ export default function CheckIn() {
       setMenuModal(false);
       console.log('Modal fechado');
     }
+  }
+
+  useEffect(() => {
+    async function GetUserId() {
+      const id = await AsyncStorage.getItem('id');
+      setUserId(id);
+    }
+    GetUserId();
+  }, ['']);
+
+  useEffect(() => {
+    GetLesson();
+  }, ['']);
+
+  function FormatDate(date) {
+    const parseDate = new Date(date);
+    const parseDateOneHour = new Date(date);
+    parseDateOneHour.setHours(parseDateOneHour.getHours() + 1);
+    return (
+      parseDate.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }) +
+      ' - ' +
+      parseDateOneHour.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    );
+  }
+
+  function GetLesson() {
+    api
+      .get('/lesson')
+      .then(res => {
+        setLessons(res.data);
+        console.log('Lesson Carregado');
+      })
+      .catch(err => {
+        Alert.alert('Ocorreu um erro', err.response.message);
+      });
+  }
+
+  function CheckInVerification(id) {
+    Alert.alert('Confirmacao de CheckIn', 'Deseja fazer CheckIn?', [
+      {
+        text: 'Sim',
+        onPress: () => {
+          CheckIn(id);
+        },
+      },
+      {
+        text: 'Cancelar',
+        onPress: () => {
+          console.log('Cancelado');
+        },
+      },
+    ]);
+  }
+
+  function CheckIn(id) {
+    console.log(id);
+    api
+      .patch('/lesson/checkin', {
+        lessonid: id,
+        id: userid,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          Alert.alert('Sucesso', 'CheckIn realizado!');
+          GetLesson();
+        }
+      })
+      .catch(err => {
+        if (err.response.status === 409) {
+          Alert.alert('Ocorreu um erro', 'Voce ja fez checkin');
+        } else {
+          Alert.alert('Ocorreu um erro', err);
+        }
+      });
   }
 
   if (menuModal) {
@@ -274,14 +352,24 @@ export default function CheckIn() {
             backgroundColor: 'white',
             width: '100%',
           }}>
-          <SafeAreaView>
-            <CheckInContainer
-              date={'6:00 - 7:00'}
-              vacancy={'10'}
-              professor={'Pedro'}
-              title={'Barbell'}
-              key={1}
-            />
+          <SafeAreaView
+            style={{justifyContent: 'center', alignItems: 'center'}}>
+            <ScrollView style={{marginTop: 20}}>
+              {lessons.map(lesson => {
+                return (
+                  <CheckInContainer
+                    date={FormatDate(lesson.startTime)}
+                    method={CheckInVerification}
+                    id={lesson.id}
+                    vacancy={lesson.vacancy}
+                    maxVacancy={lesson.maxVacancy}
+                    professor={lesson.professorName}
+                    title={lesson.title}
+                    key={lesson.id}
+                  />
+                );
+              })}
+            </ScrollView>
           </SafeAreaView>
         </SafeAreaView>
       </SafeAreaView>
