@@ -22,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Profile"
+        initialRouteName="CheckIn"
         screenOptions={{
           headerShown: false,
         }}>
