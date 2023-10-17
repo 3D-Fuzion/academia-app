@@ -19,6 +19,8 @@ import Sair from '../assets/menu/sair';
 import {transform} from 'typescript';
 import {TouchableOpacity} from 'react-native';
 import CommandBar from '../components/CommandBar';
+import {ScrollView} from 'react-native';
+import CheckInContainer from '../components/Containers/CheckInContainer';
 export default function CheckIn() {
   const [menuModal, setMenuModal] = useState(false);
   let menu;
@@ -271,7 +273,17 @@ export default function CheckIn() {
             flex: 6,
             backgroundColor: 'white',
             width: '100%',
-          }}></SafeAreaView>
+          }}>
+          <SafeAreaView>
+            <CheckInContainer
+              date={'6:00 - 7:00'}
+              vacancy={'10'}
+              professor={'Pedro'}
+              title={'Barbell'}
+              key={1}
+            />
+          </SafeAreaView>
+        </SafeAreaView>
       </SafeAreaView>
       <CommandBar />
     </SafeAreaView>
