@@ -6,13 +6,11 @@ export default function CheckInContainer({
   maxVacancy,
   professor,
   title,
+  id,
+  method,
 }) {
   return (
-    <TouchableOpacity
-      style={{marginTop: 10}}
-      onPress={() => {
-        console.log('Clicou');
-      }}>
+    <TouchableOpacity style={{marginTop: 10}} onPress={() => method(id)}>
       <SafeAreaView
         style={{
           height: 113,

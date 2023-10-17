@@ -15,12 +15,13 @@ import CommandBar from '../components/CommandBar';
 import {ScrollView} from 'react-native';
 import CheckInContainer from '../components/Containers/CheckInContainer';
 import api from '../services/Api';
-import {setDefaultResultOrder} from 'dns';
-import {func} from 'prop-types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function CheckIn() {
   const [menuModal, setMenuModal] = useState(false);
   const [lessons, setLessons] = useState([]);
+  const [userid, setUserId] = useState('');
   let menu;
+
   function SwitchModal() {
     if (menuModal === false) {
       setMenuModal(true);
@@ -32,15 +33,15 @@ export default function CheckIn() {
   }
 
   useEffect(() => {
-    api
-      .get('/lesson')
-      .then(res => {
-        setLessons(res.data);
-        console.log('Lesson Carregado');
-      })
-      .catch(err => {
-        Alert.alert('Ocoreu um erro', err.response.message);
-      });
+    async function GetUserId() {
+      const id = await AsyncStorage.getItem('id');
+      setUserId(id);
+    }
+    GetUserId();
+  }, ['']);
+
+  useEffect(() => {
+    GetLesson();
   }, ['']);
 
   function FormatDate(date) {
@@ -58,6 +59,57 @@ export default function CheckIn() {
         minute: '2-digit',
       })
     );
+  }
+
+  function GetLesson() {
+    api
+      .get('/lesson')
+      .then(res => {
+        setLessons(res.data);
+        console.log('Lesson Carregado');
+      })
+      .catch(err => {
+        Alert.alert('Ocorreu um erro', err.response.message);
+      });
+  }
+
+  function CheckInVerification(id) {
+    Alert.alert('Confirmacao de CheckIn', 'Deseja fazer CheckIn?', [
+      {
+        text: 'Sim',
+        onPress: () => {
+          CheckIn(id);
+        },
+      },
+      {
+        text: 'Cancelar',
+        onPress: () => {
+          console.log('Cancelado');
+        },
+      },
+    ]);
+  }
+
+  function CheckIn(id) {
+    console.log(id);
+    api
+      .patch('/lesson/checkin', {
+        lessonid: id,
+        id: userid,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          Alert.alert('Sucesso', 'CheckIn realizado!');
+          GetLesson();
+        }
+      })
+      .catch(err => {
+        if (err.response.status === 409) {
+          Alert.alert('Ocorreu um erro', 'Voce ja fez checkin');
+        } else {
+          Alert.alert('Ocorreu um erro', err);
+        }
+      });
   }
 
   if (menuModal) {
@@ -307,6 +359,8 @@ export default function CheckIn() {
                 return (
                   <CheckInContainer
                     date={FormatDate(lesson.startTime)}
+                    method={CheckInVerification}
+                    id={lesson.id}
                     vacancy={lesson.vacancy}
                     maxVacancy={lesson.maxVacancy}
                     professor={lesson.professorName}
