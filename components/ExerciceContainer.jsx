@@ -9,7 +9,6 @@ export default function ExerciceContainer({ title, weight, id }) {
   const [localweight, setWeight] = useState(weight); 
 
   async function SetRecord() { 
-    console.log("Tentando alterar o recorde"); 
     const USER_ID = 1; 
     const data = {userid: 1, weight: record, trainingid: id}
     api.put("/training", data)

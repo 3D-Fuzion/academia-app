@@ -44,8 +44,6 @@ export default function Register({ navigation }) {
   }
 
   function Register() {
-    console.log('Registered');
-    console.log(name, email, password, cpf, birthDate, code);
     api
       .post('/user', {
         name: name,

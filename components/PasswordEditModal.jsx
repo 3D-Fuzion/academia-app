@@ -9,7 +9,6 @@ export default function PasswordEditModal({ visible, method, goto }) {
   async function ChangePassword() {
     const email = await AsyncStorage.getItem("email");
     const cpf = await AsyncStorage.getItem("cpf");
-    console.log(password)
     api.patch('/login/changepwd', { email: email, newpassword: password, cpf: cpf })
       .then(res => {
         if (res.status === 200) {
