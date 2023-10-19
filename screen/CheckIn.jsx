@@ -25,10 +25,8 @@ export default function CheckIn() {
   function SwitchModal() {
     if (menuModal === false) {
       setMenuModal(true);
-      console.log('Modal aberto');
     } else {
       setMenuModal(false);
-      console.log('Modal fechado');
     }
   }
 
@@ -66,7 +64,6 @@ export default function CheckIn() {
       .get('/lesson')
       .then(res => {
         setLessons(res.data);
-        console.log('Lesson Carregado');
       })
       .catch(err => {
         Alert.alert('Ocorreu um erro', err.response.message);
@@ -83,15 +80,11 @@ export default function CheckIn() {
       },
       {
         text: 'Cancelar',
-        onPress: () => {
-          console.log('Cancelado');
-        },
       },
     ]);
   }
 
   function CheckIn(id) {
-    console.log(id);
     api
       .patch('/lesson/checkin', {
         lessonid: id,

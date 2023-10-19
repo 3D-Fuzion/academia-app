@@ -18,50 +18,40 @@ export default function EditModal({ visible, method, goto }) {
   function SwitchBirthDateModal() {
     if (birthDateModal === false) {
       setbirthDateModal(true);
-      console.log('Modal aberto');
     } else {
       setbirthDateModal(false);
-      console.log('Modal fechado');
     }
   }
 
   function SwitchPasswordModal() {
     if (passwordModal === false) {
       setPasswordModal(true);
-      console.log('Modal aberto');
     } else {
       setPasswordModal(false);
-      console.log('Modal fechado');
     }
   }
 
   function SwitchEffectPhraseModal() {
     if (effectPhraseModal === false) {
       setEffectPhraseModal(true);
-      console.log('Modal aberto');
     } else {
       setEffectPhraseModal(false);
-      console.log('Modal fechado');
     }
   }
 
   function SwitchSexModal() {
     if (sexModal === false) {
       setSexModal(true);
-      console.log('Modal aberto');
     } else {
       setSexModal(false);
-      console.log('Modal fechado');
     }
   }
 
   function SwitchNameModal() {
     if (nameModal === false) {
       setNameModal(true);
-      console.log('Modal aberto');
     } else {
       setNameModal(false);
-      console.log('Modal fechado');
     }
   }
 

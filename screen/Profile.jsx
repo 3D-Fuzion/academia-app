@@ -30,20 +30,16 @@ export default function Profile({navigation}) {
   function SwitchMenuModal() {
     if (menuModal === false) {
       setMenuModal(true);
-      console.log('Modal aberto');
     } else {
       setMenuModal(false);
-      console.log('Modal fechado');
     }
   }
 
   function SwitchEditModal() {
     if (editModal === false) {
       setEditModal(true);
-      console.log('Modal aberto');
     } else {
       setEditModal(false);
-      console.log('Modal fechado');
     }
   }
 
