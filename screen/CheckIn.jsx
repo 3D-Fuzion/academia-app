@@ -15,12 +15,17 @@ import CommandBar from '../components/CommandBar';
 import {ScrollView} from 'react-native';
 import CheckInContainer from '../components/Containers/CheckInContainer';
 import api from '../services/Api';
+import DatePicker from 'react-native-date-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function CheckIn() {
   const [menuModal, setMenuModal] = useState(false);
   const [lessons, setLessons] = useState([]);
   const [userid, setUserId] = useState('');
+  const [intervalDate, setIntervalDate] = useState(new Date());
+  const [intervalDateModal, setIntervalDateModal] = useState(false);
   let menu;
+
+  const formatter = new Intl.DateTimeFormat('pt-BR', {weekday: 'long'});
 
   function SwitchModal() {
     if (menuModal === false) {
@@ -31,6 +36,11 @@ export default function CheckIn() {
   }
 
   useEffect(() => {
+    GetLesson();
+  }, [intervalDate]);
+
+  useEffect(() => {
+    setIntervalDate(new Date(Date.now()));
     async function GetUserId() {
       const id = await AsyncStorage.getItem('id');
       setUserId(id);
@@ -42,7 +52,7 @@ export default function CheckIn() {
     GetLesson();
   }, ['']);
 
-  function FormatDate(date) {
+  function FormatDateToHour(date) {
     const parseDate = new Date(date);
     const parseDateOneHour = new Date(date);
     parseDateOneHour.setHours(parseDateOneHour.getHours() + 1);
@@ -60,8 +70,9 @@ export default function CheckIn() {
   }
 
   function GetLesson() {
+    var date = intervalDate.toISOString().split('T')[0];
     api
-      .get('/lesson')
+      .get('/lesson', {params: {date: date}})
       .then(res => {
         setLessons(res.data);
       })
@@ -142,6 +153,19 @@ export default function CheckIn() {
           width: '100%',
           alignItems: 'center',
         }}>
+        <DatePicker
+          modal
+          open={intervalDateModal}
+          mode={'date'}
+          date={intervalDate}
+          onConfirm={date => {
+            setIntervalDateModal(false);
+            setIntervalDate(date);
+          }}
+          onCancel={() => {
+            setIntervalDateModal(false);
+          }}
+        />
         <Modal
           style={{backgroundColor: 'green'}}
           animationType="fade"
@@ -315,29 +339,47 @@ export default function CheckIn() {
                 fontSize: 25,
                 color: '#303437',
               }}>
-              Quinta
+              {formatter.format(intervalDate).charAt(0).toUpperCase() +
+                formatter.format(intervalDate).slice(1).split('-')[0].trim()}
             </Text>
           </SafeAreaView>
-          <SafeAreaView
+          <TouchableOpacity
+            onPress={() => {
+              setIntervalDateModal(true);
+            }}
             style={{
               height: 52,
               width: 104,
               backgroundColor: '#187B63',
               borderRadius: 50,
               position: 'absolute',
-              margin: 'auto',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}>
-            <Text
+            <SafeAreaView
               style={{
-                textAlign: 'center',
-                fontSize: 25,
-                color: 'white',
+                height: 52,
+                width: 104,
+                backgroundColor: '#187B63',
+                borderRadius: 50,
+                position: 'absolute',
+                margin: 'auto',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              01/09
-            </Text>
-          </SafeAreaView>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 25,
+                  color: 'white',
+                }}>
+                {new Date(intervalDate)
+                  .toLocaleDateString('pt-BR', {
+                    month: 'numeric',
+                    day: 'numeric',
+                  })
+                  .toString()}
+              </Text>
+            </SafeAreaView>
+          </TouchableOpacity>
         </SafeAreaView>
         <SafeAreaView
           style={{
@@ -351,7 +393,7 @@ export default function CheckIn() {
               {lessons.map(lesson => {
                 return (
                   <CheckInContainer
-                    date={FormatDate(lesson.startTime)}
+                    date={FormatDateToHour(lesson.startTime)}
                     method={CheckInVerification}
                     id={lesson.id}
                     vacancy={lesson.vacancy}
