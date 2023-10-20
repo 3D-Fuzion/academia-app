@@ -70,9 +70,24 @@ export default function CheckIn() {
   }
 
   function GetLesson() {
-    var date = intervalDate.toISOString().split('T')[0];
+    const dateParts = intervalDate.toLocaleString().split(',')[0].split('/');
+
+    for (var i = 0; i < dateParts.length; i++) {
+      if (dateParts[i].length < 2) {
+        dateParts[i] = '0' + dateParts[i];
+      }
+    }
+
+    const year = dateParts[2];
+    const month = dateParts[0];
+    const day = dateParts[1];
+
+    const transformedDate = `${year}-${month}-${day}`;
+
+    console.log(transformedDate);
+
     api
-      .get('/lesson', {params: {date: date}})
+      .get('/lesson', {params: {date: transformedDate}})
       .then(res => {
         setLessons(res.data);
       })
@@ -155,6 +170,7 @@ export default function CheckIn() {
         }}>
         <DatePicker
           modal
+          locale="pt-BR"
           open={intervalDateModal}
           mode={'date'}
           date={intervalDate}
