@@ -1,4 +1,4 @@
-import {SafeAreaView, Text, TouchableOpacity} from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
 
 export default function CheckInContainer({
   date,
@@ -10,7 +10,7 @@ export default function CheckInContainer({
   method,
 }) {
   return (
-    <TouchableOpacity style={{marginTop: 10}} onPress={() => method(id)}>
+    <TouchableOpacity style={{ marginTop: 10 }} onPress={() => method(id)}>
       <SafeAreaView
         style={{
           height: 113,
@@ -63,20 +63,20 @@ export default function CheckInContainer({
                 margin: 4,
                 marginRight: 11,
               }}>
-              <Text style={{fontSize: 19}}>{title}</Text>
+              <Text style={{ fontSize: 19 }}>{title}</Text>
             </SafeAreaView>
           </SafeAreaView>
         </SafeAreaView>
-        <SafeAreaView style={{flex: 1, flexDirection: 'row'}}>
+        <SafeAreaView style={{ flex: 1, flexDirection: 'row' }}>
           <SafeAreaView
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontSize: 19}}>
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 19 }}>
               Vagas {vacancy} / {maxVacancy}
             </Text>
           </SafeAreaView>
           <SafeAreaView
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontSize: 21, color: '#187B63', fontWeight: '500'}}>
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 21, color: '#187B63', fontWeight: '500' }}>
               COACH
             </Text>
             <SafeAreaView
@@ -88,7 +88,7 @@ export default function CheckInContainer({
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Text style={{fontSize: 21, color: 'white', fontWeight: '500'}}>
+              <Text style={{ fontSize: 21, color: 'white', fontWeight: '500' }}>
                 {professor}
               </Text>
             </SafeAreaView>
