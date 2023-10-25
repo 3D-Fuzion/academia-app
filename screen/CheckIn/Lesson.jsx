@@ -19,6 +19,7 @@ import CheckInStudentContainer from '../../components/Containers/CheckInStudentC
 export default function Lesson({ route }) {
   const [menuModal, setMenuModal] = useState(false);
   const [students, setStudents] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
   const [userid, setUserId] = useState('');
   let menu;
   const { id } = route.params;
@@ -31,18 +32,42 @@ export default function Lesson({ route }) {
     GetUserId();
   }, ['']);
 
-  function ShowCheckInWindow() {
-    Alert.alert('Confirmacao de CheckIn', 'Deseja fazer CheckIn?', [
-      {
-        text: 'Sim',
-        onPress: () => {
-          CheckIn(id);
+  useEffect(() => {
+    students.forEach((student) => {
+      if (student.id == userid) {
+        setIsChecked(true)
+        console.log("Set True");
+      }
+    })
+  }, [students])
+
+  function ShowCheckInWindow(cancel) {
+    console.log(cancel);
+    if (cancel) {
+      Alert.alert('Confirmacao de Cancelamento', 'Deseja cancelar o CheckIn?', [
+        {
+          text: 'Sim',
+          onPress: () => {
+            CancelCheckIn(id);
+          },
         },
-      },
-      {
-        text: 'Cancelar',
-      },
-    ]);
+        {
+          text: 'Cancelar',
+        },
+      ]);
+    } else {
+      Alert.alert('Confirmacao de CheckIn', 'Deseja fazer CheckIn?', [
+        {
+          text: 'Sim',
+          onPress: () => {
+            CheckIn(id);
+          },
+        },
+        {
+          text: 'Cancelar',
+        },
+      ]);
+    }
   }
 
   useEffect(() => {
@@ -80,6 +105,29 @@ export default function Lesson({ route }) {
           Alert.alert('Ocorreu um erro', err);
         }
       });
+    GetData()
+  }
+
+  function CancelCheckIn(id) {
+    console.log(id, userid);
+    const payload = {
+      lessonid: id,
+      id: userid
+    }
+    api
+      .delete('/lesson/checkin', {
+        data: payload
+      })
+      .then(res => {
+        if (res.status === 200) {
+          Alert.alert('Sucesso', 'CheckIn cancelado!');
+        }
+      })
+      .catch(err => {
+        Alert.alert('Ocorreu um erro', err);
+      });
+
+    GetData()
   }
 
   function SwitchModal() {
@@ -269,18 +317,34 @@ export default function Lesson({ route }) {
           backgroundColor: 'white',
         }}>
         <SafeAreaView style={{ marginTop: 30 }}>
-          <TouchableOpacity
-            onPress={() => { ShowCheckInWindow() }}
-            style={{
-              width: 150,
-              height: 39,
-              backgroundColor: "#1A4239",
-              borderRadius: 40,
-              justifyContent: "center",
-              alignItems: "center"
-            }}>
-            <Text style={{ fontSize: 18, fontWeight: 300, color: "white" }}>Fazer check-in</Text>
-          </TouchableOpacity>
+          {isChecked ?
+            <TouchableOpacity
+              onPress={() => { ShowCheckInWindow(true) }}
+              style={{
+                width: 150,
+                height: 39,
+                backgroundColor: "#ff7f7f",
+                borderRadius: 40,
+                justifyContent: "center",
+                alignItems: "center"
+              }}>
+              <Text style={{ fontSize: 18, fontWeight: 300, color: "white" }}>Cancelar</Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity
+              onPress={() => { ShowCheckInWindow() }}
+              style={{
+                width: 150,
+                height: 39,
+                backgroundColor: "#1A4239",
+                borderRadius: 40,
+                justifyContent: "center",
+                alignItems: "center"
+              }}>
+              <Text style={{ fontSize: 18, fontWeight: 300, color: "white" }}>Fazer check-in</Text>
+            </TouchableOpacity>
+          }
+
         </SafeAreaView>
         <SafeAreaView>
           <ScrollView style={{ marginTop: 30 }}>
