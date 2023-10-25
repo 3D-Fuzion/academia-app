@@ -1,37 +1,134 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, Modal, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
-import Sino from '../assets/sino';
-import Menu from '../assets/menu';
-import Calendario from '../assets/menu/calendario';
-import Atletas from '../assets/menu/atletas';
-import CheckInIcon from '../assets/menu/checkin';
-import Pagamento from '../assets/menu/pagamento';
-import ScreenTitle from '../assets/screen_titles/checkin';
-import Recorde from '../assets/menu/recorde';
-import Sair from '../assets/menu/sair';
+import Sino from '../../assets/sino';
+import Menu from '../../assets/menu';
+import Calendario from '../../assets/menu/calendario';
+import Atletas from '../../assets/menu/atletas';
+import CheckInIcon from '../../assets/menu/checkin';
+import Pagamento from '../../assets/menu/pagamento';
+import ScreenTitle from '../../assets/screen_titles/checkin';
+import Recorde from '../../assets/menu/recorde';
+import Sair from '../../assets/menu/sair';
 import { TouchableOpacity } from 'react-native';
-import CommandBar from '../components/CommandBar';
+import CommandBar from '../../components/CommandBar';
 import { ScrollView } from 'react-native';
-import CheckInContainer from '../components/Containers/CheckInContainer';
-import api from '../services/Api';
-import DatePicker from 'react-native-date-picker';
-export default function CheckIn({ navigation }) {
+import api from '../../services/Api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import CheckInStudentContainer from '../../components/Containers/CheckInStudentContainer';
+export default function Lesson({ route }) {
   const [menuModal, setMenuModal] = useState(false);
-  const [lessons, setLessons] = useState([]);
-  const [intervalDate, setIntervalDate] = useState(new Date());
-  const [intervalDateModal, setIntervalDateModal] = useState(false);
+  const [students, setStudents] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+  const [userid, setUserId] = useState('');
   let menu;
-
-  const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' });
-
-  useEffect(() => {
-    GetLesson();
-  }, [intervalDate]);
+  const { id } = route.params;
 
   useEffect(() => {
-    GetLesson();
+    async function GetUserId() {
+      const id = await AsyncStorage.getItem('id');
+      setUserId(id);
+    }
+    GetUserId();
   }, ['']);
+
+  useEffect(() => {
+    students.forEach((student) => {
+      if (student.id == userid) {
+        setIsChecked(true)
+        console.log("Set True");
+      }
+    })
+  }, [students])
+
+  function ShowCheckInWindow(cancel) {
+    console.log(cancel);
+    if (cancel) {
+      Alert.alert('Confirmacao de Cancelamento', 'Deseja cancelar o CheckIn?', [
+        {
+          text: 'Sim',
+          onPress: () => {
+            CancelCheckIn(id);
+          },
+        },
+        {
+          text: 'Cancelar',
+        },
+      ]);
+    } else {
+      Alert.alert('Confirmacao de CheckIn', 'Deseja fazer CheckIn?', [
+        {
+          text: 'Sim',
+          onPress: () => {
+            CheckIn(id);
+          },
+        },
+        {
+          text: 'Cancelar',
+        },
+      ]);
+    }
+  }
+
+  useEffect(() => {
+    GetData()
+  }, [''])
+
+  function GetData() {
+    api
+      .get('/lesson/' + id + '/student')
+      .then(res => {
+        setStudents(res.data);
+      })
+      .catch(err => {
+        Alert.alert('Ocorreu um erro', err.response.message);
+      });
+
+    console.log(students);
+  }
+
+  function CheckIn(id) {
+    api
+      .patch('/lesson/checkin', {
+        lessonid: id,
+        id: userid,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          Alert.alert('Sucesso', 'CheckIn realizado!');
+        }
+      })
+      .catch(err => {
+        if (err.response.status === 409) {
+          Alert.alert('Ocorreu um erro', 'Voce ja fez checkin');
+        } else {
+          Alert.alert('Ocorreu um erro', err);
+        }
+      });
+    GetData()
+  }
+
+  function CancelCheckIn(id) {
+    console.log(id, userid);
+    const payload = {
+      lessonid: id,
+      id: userid
+    }
+    api
+      .delete('/lesson/checkin', {
+        data: payload
+      })
+      .then(res => {
+        if (res.status === 200) {
+          Alert.alert('Sucesso', 'CheckIn cancelado!');
+        }
+      })
+      .catch(err => {
+        Alert.alert('Ocorreu um erro', err);
+      });
+
+    GetData()
+  }
 
   function SwitchModal() {
     if (menuModal === false) {
@@ -39,55 +136,6 @@ export default function CheckIn({ navigation }) {
     } else {
       setMenuModal(false);
     }
-  }
-
-  function FormatDateToHour(date) {
-    const parseDate = new Date(date);
-    const parseDateOneHour = new Date(date);
-    parseDateOneHour.setHours(parseDateOneHour.getHours() + 1);
-    return (
-      parseDate.toLocaleTimeString('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit',
-      }) +
-      ' - ' +
-      parseDateOneHour.toLocaleTimeString('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit',
-      })
-    );
-  }
-
-  function GetLesson() {
-    const dateParts = intervalDate.toLocaleString().split(',')[0].split('/');
-
-    for (var i = 0; i < dateParts.length; i++) {
-      if (dateParts[i].length < 2) {
-        dateParts[i] = '0' + dateParts[i];
-      }
-    }
-
-    const year = dateParts[2];
-    const month = dateParts[0];
-    const day = dateParts[1];
-
-    const transformedDate = `${year}-${month}-${day}`;
-
-    console.log(transformedDate);
-
-    api
-      .get('/lesson', { params: { date: transformedDate } })
-      .then(res => {
-        setLessons(res.data);
-      })
-      .catch(err => {
-        Alert.alert('Ocorreu um erro', err.response.message);
-      });
-  }
-
-  function OpenLesson(id) {
-    navigation.navigate("Lesson", { id: id })
-    console.log(id);
   }
 
   if (menuModal) {
@@ -127,22 +175,7 @@ export default function CheckIn({ navigation }) {
           width: '100%',
           alignItems: 'center',
         }}>
-        <DatePicker
-          modal
-          locale="pt-BR"
-          open={intervalDateModal}
-          mode={'date'}
-          date={intervalDate}
-          onConfirm={date => {
-            setIntervalDateModal(false);
-            setIntervalDate(date);
-          }}
-          onCancel={() => {
-            setIntervalDateModal(false);
-          }}
-        />
-        <Modal
-          style={{ backgroundColor: 'green' }}
+        <Modal style={{ backgroundColor: 'green' }}
           animationType="fade"
           transparent={true}
           visible={menuModal}
@@ -283,107 +316,47 @@ export default function CheckIn({ navigation }) {
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            backgroundColor: '#ECECEC',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <SafeAreaView
-            style={{
-              height: 52,
-              width: 104,
-              transform: [{ translateX: -120 }],
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-            }}>
-            <Text
+        <SafeAreaView style={{ marginTop: 30 }}>
+          {isChecked ?
+            <TouchableOpacity
+              onPress={() => { ShowCheckInWindow(true) }}
               style={{
-                textAlign: 'left',
-                fontSize: 18,
-                color: '#187B63',
+                width: 150,
+                height: 39,
+                backgroundColor: "#ff7f7f",
+                borderRadius: 40,
+                justifyContent: "center",
+                alignItems: "center"
               }}>
-              Dia
-            </Text>
-            <Text
+              <Text style={{ fontSize: 18, fontWeight: 300, color: "white" }}>Cancelar</Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity
+              onPress={() => { ShowCheckInWindow() }}
               style={{
-                textAlign: 'left',
-                fontSize: 25,
-                color: '#303437',
+                width: 150,
+                height: 39,
+                backgroundColor: "#1A4239",
+                borderRadius: 40,
+                justifyContent: "center",
+                alignItems: "center"
               }}>
-              {formatter.format(intervalDate).charAt(0).toUpperCase() +
-                formatter.format(intervalDate).slice(1).split('-')[0].trim()}
-            </Text>
-          </SafeAreaView>
-          <TouchableOpacity
-            onPress={() => {
-              setIntervalDateModal(true);
-            }}
-            style={{
-              height: 52,
-              width: 104,
-              backgroundColor: '#187B63',
-              borderRadius: 50,
-              position: 'absolute',
-            }}>
-            <SafeAreaView
-              style={{
-                height: 52,
-                width: 104,
-                backgroundColor: '#187B63',
-                borderRadius: 50,
-                position: 'absolute',
-                margin: 'auto',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 25,
-                  color: 'white',
-                }}>
-                {new Date(intervalDate)
-                  .toLocaleDateString('pt-BR', {
-                    month: 'numeric',
-                    day: 'numeric',
-                  })
-                  .toString()}
-              </Text>
-            </SafeAreaView>
-          </TouchableOpacity>
+              <Text style={{ fontSize: 18, fontWeight: 300, color: "white" }}>Fazer check-in</Text>
+            </TouchableOpacity>
+          }
+
         </SafeAreaView>
-        <SafeAreaView
-          style={{
-            flex: 6,
-            backgroundColor: 'white',
-            width: '100%',
-          }}>
-          <SafeAreaView
-            style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <ScrollView style={{ marginTop: 20 }}>
-              {lessons.map(lesson => {
-                return (
-                  <CheckInContainer
-                    date={FormatDateToHour(lesson.startTime)}
-                    method={OpenLesson}
-                    id={lesson.id}
-                    vacancy={lesson.vacancy}
-                    maxVacancy={lesson.maxVacancy}
-                    professor={lesson.professorName}
-                    title={lesson.title}
-                    key={lesson.id}
-                  />
-                );
-              })}
-            </ScrollView>
-          </SafeAreaView>
+        <SafeAreaView>
+          <ScrollView style={{ marginTop: 30 }}>
+            {students.map(student => {
+              return (
+                <CheckInStudentContainer name={student.name} />
+              )
+            })}
+          </ScrollView>
         </SafeAreaView>
       </SafeAreaView>
       <CommandBar />
     </SafeAreaView>
-  );
+  )
 }
