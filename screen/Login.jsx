@@ -1,13 +1,13 @@
-import {Keyboard, Text, TextInput, Alert} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useState, useEffect} from 'react';
+import { Keyboard, Text, TextInput, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useEffect } from 'react';
 import Logo from '../assets/LOGO.svg';
 import LoginButton from '../components/Buttons/LoginButton';
 import api from '../services/Api';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,7 +47,7 @@ export default function Login({navigation}) {
       })
       .then(res => {
         AsyncStorage.setItem('token', res.data.token);
-        AsyncStorage.setItem('id', res.data.id);
+        AsyncStorage.setItem('id', res.data.id.toString());
         AsyncStorage.setItem('email', res.data.email);
         navigation.navigate('Feed');
       })
@@ -72,7 +72,7 @@ export default function Login({navigation}) {
   }
 
   if (!isKeyboardVisible) {
-    logo = <Logo style={{marginTop: 100}} width={420} height={120}></Logo>;
+    logo = <Logo style={{ marginTop: 100 }} width={420} height={120}></Logo>;
   } else {
     logo = <></>;
   }
@@ -84,7 +84,7 @@ export default function Login({navigation}) {
         backgroundColor: 'white',
       }}>
       {logo}
-      <Text style={{color: '#187B63', fontSize: 34, marginTop: 30}}>
+      <Text style={{ color: '#187B63', fontSize: 34, marginTop: 30 }}>
         Bem vindo!
       </Text>
       <SafeAreaView
@@ -150,7 +150,7 @@ export default function Login({navigation}) {
           style={{
             marginTop: 25,
           }}>
-          <Text style={{fontSize: 20}}>Voltar</Text>
+          <Text style={{ fontSize: 20 }}>Voltar</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
