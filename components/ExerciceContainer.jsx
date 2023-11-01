@@ -1,7 +1,6 @@
 import { Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Alert} from 'react-native'
 import { useState } from 'react'
 import api from "../services/Api"
-import * as Keychain from 'react-native-keychain';
 
 export default function ExerciceContainer({ title, weight, id }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -10,7 +9,6 @@ export default function ExerciceContainer({ title, weight, id }) {
 
   async function SetRecord() { 
     console.log("Tentando alterar o recorde"); 
-    const USER_ID = 1; 
     const data = {userid: 1, weight: record, trainingid: id}
     api.put("/training", data)
       .then((res) => { 
