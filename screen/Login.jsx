@@ -35,7 +35,6 @@ export default function Login({ navigation }) {
   let logo;
 
   function Return() {
-    console.log('Goinng to Splash Screen');
     navigation.navigate('Splash');
   }
 
@@ -52,7 +51,6 @@ export default function Login({ navigation }) {
         navigation.navigate('Feed');
       })
       .catch(error => {
-        console.log(error.response);
         if (error.response.status === 400) {
           Alert.alert('Senha incorreta', 'Verifique a senha digitada');
         }
