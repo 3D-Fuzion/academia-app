@@ -18,10 +18,8 @@ export default function DayPratice() {
   function SwitchModal() {
     if (menuModal === false) {
       setMenuModal(true);
-      console.log('Modal aberto');
     } else {
       setMenuModal(false);
-      console.log('Modal fechado');
     }
   }
 

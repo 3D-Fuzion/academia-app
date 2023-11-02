@@ -9,12 +9,10 @@ import Logo from '../assets/LOGO.svg';
 export default function Intro({navigation}) {
 
   function Register() {
-    console.log("Goinng to Register Screen")
     navigation.navigate("Register");
   }
 
   function Login() {
-    console.log("Goinng to Login Screen")
     navigation.navigate("Login");
   }
 
