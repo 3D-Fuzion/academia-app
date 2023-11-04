@@ -1,9 +1,7 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Image, Modal} from 'react-native';
-import {useState} from 'react';
-
+import {useState, useEffect} from 'react';
 import Perfil from '../assets/screen_titles/perfil';
-
 import Sino from '../assets/sino';
 import Menu from '../assets/menu';
 import Coracao from '../assets/coracao';
@@ -22,10 +20,11 @@ import EditModal from '../components/EditModal';
 import SideModal from '../components/SideModal';
 import TopBar from '../components/TopBar';
 import EditProfile from '../assets/editprofile';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Profile({navigation}) {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [USER_FULL_NAME, setUserFullName] = useState("")
 
   function SwitchMenuModal() {
     if (menuModal === false) {
@@ -41,6 +40,16 @@ export default function Profile({navigation}) {
     } else {
       setEditModal(false);
     }
+  }
+
+  useEffect(() => {
+    GetUsername();
+  }, [""])
+
+  async function GetUsername() {
+    var username = await AsyncStorage.getItem("username")
+    console.log(username)
+    setUserFullName(username)
   }
 
   function Navigate(name) {
@@ -189,7 +198,7 @@ export default function Profile({navigation}) {
             </SafeAreaView>
             <Text style={{marginTop: 30}}>Aluno</Text>
             <Text style={{fontSize: 30, fontWeight: 'bold'}}>
-              Nome do Aluno
+              {USER_FULL_NAME}
             </Text>
           </SafeAreaView>
         </SafeAreaView>
