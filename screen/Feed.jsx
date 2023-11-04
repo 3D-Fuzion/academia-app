@@ -1,6 +1,6 @@
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Modal} from 'react-native';
-import {useState} from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, Modal } from 'react-native';
+import { useEffect, useState } from 'react';
 
 import Calendario from '../assets/menu/calendario';
 import AtletasIcon from '../assets/menu/atletas';
@@ -11,10 +11,12 @@ import Recorde from '../assets/menu/recorde';
 import Sair from '../assets/menu/sair';
 import SideModal from '../components/SideModal'
 
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Feed({ navigation }) {
+  const [USER_FULL_NAME, setUserFullName] = useState("")
   const [menuModal, setMenuModal] = useState(false);
   function SwitchModal() {
     if (menuModal === false) {
@@ -25,9 +27,17 @@ export default function Feed({ navigation }) {
   }
 
   function Navigate(name) {
-    navigation.navigate(name); 
+    navigation.navigate(name);
   }
 
+  useEffect(() => {
+    GetUsername();
+  }, [""])
+
+  async function GetUsername() {
+    var username = await AsyncStorage.getItem("username")
+    setUserFullName(username)
+  }
 
   return (
     <SafeAreaView
@@ -42,10 +52,10 @@ export default function Feed({ navigation }) {
           width: '100%',
           alignItems: 'center',
         }}>
-         <SafeAreaView>
-          <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchModal} goto={Navigate}/>
+        <SafeAreaView>
+          <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchModal} goto={Navigate} />
         </SafeAreaView>
-        <TopBar style={{flex:10}}screenTitle={"feed"} method={SwitchModal} variable={menuModal}></TopBar>
+        <TopBar style={{ flex: 10 }} screenTitle={"feed"} method={SwitchModal} variable={menuModal}></TopBar>
       </SafeAreaView>
       <SafeAreaView
         style={{
@@ -71,9 +81,9 @@ export default function Feed({ navigation }) {
               borderRadius: 100,
               backgroundColor: 'white',
             }}></SafeAreaView>
-          <SafeAreaView style={{marginLeft: 10}}>
-            <Text style={{color: '#187B63', fontSize: 13}}>Coach</Text>
-            <Text style={{color: '#303437', fontSize: 21}}>Junior Oliver</Text>
+          <SafeAreaView style={{ marginLeft: 10 }}>
+            <Text style={{ color: '#187B63', fontSize: 13 }}>Aluno</Text>
+            <Text style={{ color: '#303437', fontSize: 21 }}>{USER_FULL_NAME}</Text>
           </SafeAreaView>
         </SafeAreaView>
         <SafeAreaView
