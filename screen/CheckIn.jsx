@@ -16,6 +16,7 @@ import { ScrollView } from 'react-native';
 import CheckInContainer from '../components/Containers/CheckInContainer';
 import api from '../services/Api';
 import DatePicker from 'react-native-date-picker';
+import SideModal from '../components/SideModal';
 export default function CheckIn({ navigation }) {
   const [menuModal, setMenuModal] = useState(false);
   const [lessons, setLessons] = useState([]);
@@ -90,6 +91,10 @@ export default function CheckIn({ navigation }) {
     console.log(id);
   }
 
+  function Navigate(name) {
+    navigation.navigate(name);
+  }
+
   if (menuModal) {
     menu = (
       <TouchableOpacity onPress={SwitchModal}>
@@ -141,114 +146,9 @@ export default function CheckIn({ navigation }) {
             setIntervalDateModal(false);
           }}
         />
-        <Modal
-          style={{ backgroundColor: 'green' }}
-          animationType="fade"
-          transparent={true}
-          visible={menuModal}
-          onRequestClose={() => {
-            setMenuModal(!menuModal);
-          }}>
-          <SafeAreaView
-            style={{
-              alignSelf: 'flex-end',
-              flex: 1,
-              backgroundColor: '#187B63',
-              marginTop: 55,
-              paddingLeft: 20,
-              paddingTop: 50,
-              gap: 20,
-              marginBottom: 55,
-              borderTopLeftRadius: 40,
-              borderBottomLeftRadius: 40,
-              width: '85%',
-            }}>
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <CheckInIcon width={35} height={35} />
-                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                  Check List
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Calendario width={35} height={35} />
-                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                  Calendário
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Recorde width={35} height={35} />
-                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                  Recorde Pessoal
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Atletas width={35} height={35} />
-                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                  Atletas
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <SafeAreaView
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Pagamento width={35} height={35} />
-                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                  Pagamentos
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={SwitchModal}>
-              <SafeAreaView
-                style={{
-                  marginTop: 50,
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <Sair width={35} height={35} />
-                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                  Sair
-                </Text>
-              </SafeAreaView>
-            </TouchableOpacity>
-          </SafeAreaView>
-        </Modal>
+        <SafeAreaView>
+          <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchModal} goto={Navigate} />
+        </SafeAreaView>
         <SafeAreaView
           style={{
             flex: 2,
@@ -383,7 +283,7 @@ export default function CheckIn({ navigation }) {
           </SafeAreaView>
         </SafeAreaView>
       </SafeAreaView>
-      <CommandBar />
+      <CommandBar goto={Navigate} />
     </SafeAreaView>
   );
 }
