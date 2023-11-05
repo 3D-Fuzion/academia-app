@@ -6,7 +6,6 @@ import Recorde from '../assets/menu/recorde';
 import Sair from '../assets/menu/sair';
 import { TouchableOpacity } from 'react-native';
 import { Modal, SafeAreaView, Text } from 'react-native'
-import { useState } from 'react';
 export default function SideModal({ visible, method, goto }) {
   return (
     <SafeAreaView style={{
@@ -37,7 +36,7 @@ export default function SideModal({ visible, method, goto }) {
             borderBottomLeftRadius: 40,
             width: '85%',
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => goto("CheckIn")}>
             <SafeAreaView
               style={{
                 flexDirection: 'row',
@@ -46,7 +45,7 @@ export default function SideModal({ visible, method, goto }) {
               }}>
               <CheckInIcon width={35} height={35} />
               <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
-                Check List
+                Check-in
               </Text>
             </SafeAreaView>
           </TouchableOpacity>
@@ -106,7 +105,7 @@ export default function SideModal({ visible, method, goto }) {
             </SafeAreaView>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {method()}}>
+          <TouchableOpacity onPress={() => { method() }}>
             <SafeAreaView
               style={{
                 marginTop: 50,
