@@ -1,8 +1,8 @@
 import Home from './screen/Home';
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Register from './screen/Register';
 import Splash from './screen/Splash';
 import Login from './screen/Login';
@@ -23,7 +23,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Profile"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}>
@@ -37,7 +37,6 @@ export default function App() {
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="DayPratice" component={DayPratice} />
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Training" component={Training} />
