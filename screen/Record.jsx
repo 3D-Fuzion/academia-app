@@ -1,7 +1,6 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Modal} from 'react-native';
 import {useState} from 'react';
-
 import Calendario from '../assets/menu/calendario';
 import Atletas from '../assets/menu/atletas';
 import CheckInIcon from '../assets/menu/checkin';

@@ -1,13 +1,10 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { SafeAreaView } from 'react-native';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import LoginButton from '../components/Buttons/LoginButton';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
 import CreateAccountButton from '../components/Buttons/CreateAccountButton';
 import Logo from '../assets/LOGO.svg';
-export default function Intro({navigation}) {
 
+export default function Intro({ navigation }) {
   function Register() {
     navigation.navigate("Register");
   }
@@ -23,7 +20,7 @@ export default function Intro({navigation}) {
         alignItems: 'center',
         backgroundColor: 'white',
       }}>
-      <Logo style={{ marginTop: 100 }} width={420} height={120}/>
+      <Logo style={{ marginTop: 100 }} width={420} height={120} />
       <Text style={{ color: '#187B63', fontSize: 34, marginTop: 30 }}>
         Bem vindo!
       </Text>
@@ -37,7 +34,7 @@ export default function Intro({navigation}) {
           justifyContent: 'center',
           gap: 10,
         }}>
-        <LoginButton method={Login}/>
+        <LoginButton method={Login} />
         <CreateAccountButton createMethod={Register} />
 
       </SafeAreaView>

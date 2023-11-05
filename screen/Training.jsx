@@ -1,23 +1,24 @@
 import { SafeAreaView, ScrollView } from "react-native";
-import { Text, Modal } from 'react-native';
+import { Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import ExerciceContainer from '../components/ExerciceContainer';
 import api from '../services/Api'
 import SideModal from '../components/SideModal'
 import LoadingIcon from '../assets/status/loading'
+
 export default function Training({ navigation, route }) {
   const [menuModal, setMenuModal] = useState(false);
   const [trainings, setTrainings] = useState([]);
 
-  useEffect(() => { 
+  useEffect(() => {
     function LoadTrainings() {
       api.get(`/training?category=${route.params.title}&userid=${1}`)
         .then((res) => {
           setTrainings(res.data)
         })
     }
-      LoadTrainings();
+    LoadTrainings();
   }, [""])
 
   function SwitchModal() {
@@ -29,7 +30,7 @@ export default function Training({ navigation, route }) {
   }
 
   function Navigate(name) {
-    navigation.navigate(name); 
+    navigation.navigate(name);
   }
 
 
@@ -47,9 +48,9 @@ export default function Training({ navigation, route }) {
           alignItems: 'center',
         }}>
         <SafeAreaView>
-          <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchModal} goto={Navigate}/>
+          <SideModal style={{ display: "none" }} visible={menuModal} method={SwitchModal} goto={Navigate} />
         </SafeAreaView>
-        <TopBar style={{flex:10}}screenTitle={"recorde"} method={SwitchModal} variable={menuModal}></TopBar>
+        <TopBar style={{ flex: 10 }} screenTitle={"recorde"} method={SwitchModal} variable={menuModal}></TopBar>
       </SafeAreaView>
       <SafeAreaView style={{
         height: 84,
@@ -63,7 +64,7 @@ export default function Training({ navigation, route }) {
           fontWeight: 300,
           color: "white"
         }}>
-         {route.params.title}
+          {route.params.title}
         </Text>
       </SafeAreaView>
       <SafeAreaView
@@ -74,11 +75,11 @@ export default function Training({ navigation, route }) {
           alignItems: 'center',
           backgroundColor: 'white',
         }}>
-        {trainings.length === 0 ? <SafeAreaView><LoadingIcon/></SafeAreaView> : 
+        {trainings.length === 0 ? <SafeAreaView><LoadingIcon /></SafeAreaView> :
           <SafeAreaView style={{ marginTop: 30, width: "90%" }}>
             <ScrollView>
               {
-                trainings.map((training) => <ExerciceContainer title={training.name} weight={training.weight} key={training.id} id={training.id}/>)
+                trainings.map((training) => <ExerciceContainer title={training.name} weight={training.weight} key={training.id} id={training.id} />)
               }
             </ScrollView>
           </SafeAreaView>

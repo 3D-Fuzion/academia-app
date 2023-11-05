@@ -5,6 +5,7 @@ import Logo from '../assets/LOGO.svg';
 import { useState, useEffect } from 'react';
 import DatePicker from 'react-native-date-picker';
 import api from '../services/Api';
+
 export default function Register({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [name, setName] = useState('');

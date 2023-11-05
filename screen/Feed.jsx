@@ -1,20 +1,11 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, Modal } from 'react-native';
+import { Text } from 'react-native';
 import { useEffect, useState } from 'react';
-
-import Calendario from '../assets/menu/calendario';
-import AtletasIcon from '../assets/menu/atletas';
-import CheckInIcon from '../assets/menu/checkin';
-import Pagamento from '../assets/menu/pagamento';
-
-import Recorde from '../assets/menu/recorde';
-import Sair from '../assets/menu/sair';
 import SideModal from '../components/SideModal'
-
-import { TouchableOpacity } from 'react-native';
 import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Feed({ navigation }) {
   const [USER_FULL_NAME, setUserFullName] = useState("")
   const [menuModal, setMenuModal] = useState(false);

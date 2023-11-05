@@ -1,18 +1,16 @@
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Modal} from 'react-native';
-import {useState} from 'react';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, Modal } from 'react-native';
+import { useState } from 'react';
 import Calendario from '../assets/menu/calendario';
 import AtletasIcon from '../assets/menu/atletas';
 import CheckInIcon from '../assets/menu/checkin';
 import Pagamento from '../assets/menu/pagamento';
-
 import Recorde from '../assets/menu/recorde';
 import Sair from '../assets/menu/sair';
-
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import CommandBar from '../components/CommandBar';
 import TopBar from '../components/TopBar';
+
 export default function Atletas() {
   const [menuModal, setMenuModal] = useState(false);
   function SwitchModal() {
@@ -37,7 +35,7 @@ export default function Atletas() {
           alignItems: 'center',
         }}>
         <Modal
-          style={{backgroundColor: 'green'}}
+          style={{ backgroundColor: 'green' }}
           animationType="fade"
           transparent={true}
           visible={menuModal}
@@ -66,7 +64,7 @@ export default function Atletas() {
                   alignItems: 'center',
                 }}>
                 <CheckInIcon width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Check List
                 </Text>
               </SafeAreaView>
@@ -80,7 +78,7 @@ export default function Atletas() {
                   alignItems: 'center',
                 }}>
                 <Calendario width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Calendário
                 </Text>
               </SafeAreaView>
@@ -94,7 +92,7 @@ export default function Atletas() {
                   alignItems: 'center',
                 }}>
                 <Recorde width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Recorde Pessoal
                 </Text>
               </SafeAreaView>
@@ -108,7 +106,7 @@ export default function Atletas() {
                   alignItems: 'center',
                 }}>
                 <AtletasIcon width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Atletas
                 </Text>
               </SafeAreaView>
@@ -122,7 +120,7 @@ export default function Atletas() {
                   alignItems: 'center',
                 }}>
                 <Pagamento width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Pagamentos
                 </Text>
               </SafeAreaView>
@@ -137,7 +135,7 @@ export default function Atletas() {
                   alignItems: 'center',
                 }}>
                 <Sair width={35} height={35} />
-                <Text style={{marginLeft: 30, color: 'white', fontSize: 30}}>
+                <Text style={{ marginLeft: 30, color: 'white', fontSize: 30 }}>
                   Sair
                 </Text>
               </SafeAreaView>

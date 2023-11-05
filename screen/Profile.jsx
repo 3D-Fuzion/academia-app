@@ -1,27 +1,17 @@
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Image, Modal} from 'react-native';
-import {useState, useEffect} from 'react';
-import Perfil from '../assets/screen_titles/perfil';
-import Sino from '../assets/sino';
-import Menu from '../assets/menu';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, Image, Modal } from 'react-native';
+import { useState, useEffect } from 'react';
 import Coracao from '../assets/coracao';
 import Estrela from '../assets/estrela';
-import Check from '../assets/check';
-import Calendario from '../assets/menu/calendario';
-import Atletas from '../assets/menu/atletas';
-import CheckIn from '../assets/menu/checkin';
-import Pagamento from '../assets/menu/pagamento';
-import Recorde from '../assets/menu/recorde';
-import Sair from '../assets/menu/sair';
-import {transform} from 'typescript';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import CommandBar from '../components/CommandBar';
 import EditModal from '../components/EditModal';
 import SideModal from '../components/SideModal';
 import TopBar from '../components/TopBar';
 import EditProfile from '../assets/editprofile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function Profile({navigation}) {
+
+export default function Profile({ navigation }) {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [USER_FULL_NAME, setUserFullName] = useState("")
@@ -71,14 +61,14 @@ export default function Profile({navigation}) {
         }}>
         <SafeAreaView>
           <SideModal
-            style={{display: 'none'}}
+            style={{ display: 'none' }}
             visible={menuModal}
             method={SwitchMenuModal}
             goto={Navigate}
           />
         </SafeAreaView>
         <TopBar
-          style={{flex: 10}}
+          style={{ flex: 10 }}
           screenTitle={'perfil'}
           method={SwitchMenuModal}
           variable={menuModal}
@@ -130,7 +120,7 @@ export default function Profile({navigation}) {
                     borderRadius: 100,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transform: [{translateX: -0}],
+                    transform: [{ translateX: -0 }],
                   }}>
                   <Estrela width={25} height={25} />
                 </SafeAreaView>
@@ -141,8 +131,8 @@ export default function Profile({navigation}) {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Text style={{color: 'white', fontSize: 24}}>100</Text>
-                  <Text style={{color: 'white'}}>Strikes</Text>
+                  <Text style={{ color: 'white', fontSize: 24 }}>100</Text>
+                  <Text style={{ color: 'white' }}>Strikes</Text>
                 </SafeAreaView>
                 <SafeAreaView
                   style={{
@@ -169,8 +159,8 @@ export default function Profile({navigation}) {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Text style={{color: 'white', fontSize: 24}}>99</Text>
-                  <Text style={{color: 'white'}}>Curtidas</Text>
+                  <Text style={{ color: 'white', fontSize: 24 }}>99</Text>
+                  <Text style={{ color: 'white' }}>Curtidas</Text>
                 </SafeAreaView>
                 <SafeAreaView
                   style={{
@@ -181,7 +171,7 @@ export default function Profile({navigation}) {
                     borderRadius: 100,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transform: [{translateX: +0}],
+                    transform: [{ translateX: +0 }],
                   }}>
                   <Coracao width={25} height={25} />
                 </SafeAreaView>
@@ -190,14 +180,14 @@ export default function Profile({navigation}) {
             <SafeAreaView
               style={{
                 position: 'absolute',
-                transform: [{translateX: -150}, {translateY: 165}],
+                transform: [{ translateX: -150 }, { translateY: 165 }],
               }}>
               <TouchableOpacity onPress={() => SwitchEditModal()}>
                 <EditProfile />
               </TouchableOpacity>
             </SafeAreaView>
-            <Text style={{marginTop: 30}}>Aluno</Text>
-            <Text style={{fontSize: 30, fontWeight: 'bold'}}>
+            <Text style={{ marginTop: 30 }}>Aluno</Text>
+            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
               {USER_FULL_NAME}
             </Text>
           </SafeAreaView>
