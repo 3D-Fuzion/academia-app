@@ -1,15 +1,9 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, Modal, Alert } from 'react-native';
+import { Text, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
 import Sino from '../assets/sino';
 import Menu from '../assets/menu';
-import Calendario from '../assets/menu/calendario';
-import Atletas from '../assets/menu/atletas';
-import CheckInIcon from '../assets/menu/checkin';
-import Pagamento from '../assets/menu/pagamento';
 import ScreenTitle from '../assets/screen_titles/checkin';
-import Recorde from '../assets/menu/recorde';
-import Sair from '../assets/menu/sair';
 import { TouchableOpacity } from 'react-native';
 import CommandBar from '../components/CommandBar';
 import { ScrollView } from 'react-native';
