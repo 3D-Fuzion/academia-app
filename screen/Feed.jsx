@@ -105,7 +105,7 @@ export default function Feed({ navigation }) {
           alignItems: 'center',
           backgroundColor: 'white',
         }}></SafeAreaView>
-      <CommandBar />
+      <CommandBar goto={Navigate} />
     </SafeAreaView>
   );
 }

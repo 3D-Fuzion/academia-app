@@ -15,6 +15,7 @@ import Feed from './screen/Feed';
 import Calendar from './screen/Calendar';
 import Training from './screen/Training';
 import Lesson from './screen/CheckIn/Lesson';
+import Post from './screen/Post';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Screen name="Lesson" component={Lesson} />
         <Stack.Screen name="Record" component={Record} />
         <Stack.Screen name="Feed" component={Feed} />
+        <Stack.Screen name="Post" component={Post} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="DayPratice" component={DayPratice} />

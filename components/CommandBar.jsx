@@ -22,9 +22,9 @@ export default function CommandBar({ goto }) {
       <TouchableOpacity onPress={() => goto("Record")}>
         <Treino width={45} height={45} />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => goto("Post")}>
         <Post width={30} height={30} />
       </TouchableOpacity>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }

@@ -3,6 +3,10 @@ import { Text } from 'react-native';
 import LoginButton from '../components/Buttons/LoginButton';
 import CreateAccountButton from '../components/Buttons/CreateAccountButton';
 import Logo from '../assets/LOGO.svg';
+import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../services/Api';
+import { useState } from 'react';
 
 export default function Intro({ navigation }) {
   function Register() {
