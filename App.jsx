@@ -24,7 +24,7 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
         }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
