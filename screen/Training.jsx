@@ -33,7 +33,6 @@ export default function Training({ navigation, route }) {
     navigation.navigate(name);
   }
 
-
   return (
     <SafeAreaView
       style={{

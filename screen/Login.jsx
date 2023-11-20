@@ -26,6 +26,8 @@ export default function Login({ navigation }) {
       },
     );
 
+    TryAutoLogin()
+
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
@@ -36,6 +38,38 @@ export default function Login({ navigation }) {
 
   function Return() {
     navigation.navigate('Splash');
+  }
+
+  async function TryAutoLogin() {
+    const email = await AsyncStorage.getItem("email")
+    const password = await AsyncStorage.getItem("pass")
+
+    console.log(password, email);
+    api
+      .post('/login', {
+        email: email,
+        password: password,
+      })
+      .then(res => {
+        navigation.navigate('Feed');
+      })
+      .catch(error => {
+        if (error.response.status === 400) {
+          Alert.alert('Senha incorreta', 'Verifique a senha digitada');
+        }
+        if (error.response.status === 404) {
+          Alert.alert(
+            'Cadastro não encontrado',
+            'Não conseguimos achar o seu cadastro, verique o email digitado',
+          );
+        }
+        if (error.response.status === 403) {
+          Alert.alert(
+            'Aceite em andamento',
+            'Aguarde até que alguém aceite o seu pedido de inscrição',
+          );
+        }
+      });
   }
 
   function LogIn() {
@@ -49,6 +83,7 @@ export default function Login({ navigation }) {
         AsyncStorage.setItem('id', res.data.id.toString());
         AsyncStorage.setItem('email', res.data.email);
         AsyncStorage.setItem('username', res.data.name);
+        AsyncStorage.setItem('pass', password)
         navigation.navigate('Feed');
       })
       .catch(error => {

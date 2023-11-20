@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Alert } from 'react-native';
 import { Text } from 'react-native';
 import LoginButton from '../components/Buttons/LoginButton';
 import CreateAccountButton from '../components/Buttons/CreateAccountButton';
