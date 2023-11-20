@@ -1,7 +1,7 @@
 import { TextInput, TouchableOpacity, Text, View, KeyboardAvoidingView } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-export default function Post() {
+export default function Post({ navigation }) {
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <View style={{ flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
@@ -9,7 +9,7 @@ export default function Post() {
           <Text>TITULO AQUI</Text>
         </View>
         <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <TouchableOpacity style={{ width: 30, height: 30, backgroundColor: "red", borderRadius: 100 }}></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Feed")} style={{ width: 30, height: 30, backgroundColor: "red", borderRadius: 100 }}></TouchableOpacity>
         </SafeAreaView>
       </View>
       <View style={{ flex: 10 }}>
