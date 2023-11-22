@@ -1,5 +1,4 @@
-import { TextInput, TouchableOpacity, Text, KeyboardAvoidingView } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { TextInput, TouchableOpacity, Text, KeyboardAvoidingView, SafeAreaView } from "react-native"
 import DocumentPicker from 'react-native-document-picker';
 import { useState } from "react";
 
