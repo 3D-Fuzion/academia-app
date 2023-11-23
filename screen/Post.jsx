@@ -3,40 +3,58 @@ import DocumentPicker from 'react-native-document-picker';
 import { useState } from "react";
 import RNFetchBlob from "rn-fetch-blob";
 import { PermissionsAndroid } from "react-native";
+import axios from "axios";
 export default function Post({ navigation }) {
   const [image, setImage] = useState("")
 
   async function requestReadExternalStorage() {
-    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+    try {
+      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+
+      console.log('Read and write external storage permissions granted');
+    } catch (err) {
+      console.warn(err);
+      console.log('Read and write external storage permissions denied');
+    }
   };
 
   async function SelectFile() {
-    await requestReadExternalStorage()
+    await requestReadExternalStorage();
 
     try {
       const result = await DocumentPicker.pickSingle({
         presentationStyle: "fullScreen"
       });
-      setImage([result])
+      setImage([result]);
       RNFetchBlob.fs
         .stat(result.uri)
         .then((stats) => {
           console.log(stats.path);
+          setImage(stats.path)
         })
         .catch((err) => {
           console.log(err);
         });
-      console.log(image);
     } catch (error) {
-      handleError(e)
+      handleError(error);
     }
   }
 
-  // async function UploadFile() {
-  //   RNFetchBlob.fetch('POST', 'https://api.imgbb.com/1/upload?expiration=600&key=6ba1f63f9b2cc3e94aaa5f87fec6033dY', {
-  //     'Content-Type': 'application/octet-stream'
-  //   }, RNFetchBlob.wrap(Stat(image.uri)))
-  // }
+  async function UploadFile() {
+    const apiKey = '6ba1f63f9b2cc3e94aaa5f87fec6033d';
+
+    const imageData = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    const response = await axios.post("https://api.imgbb.com/1/upload?key=" + apiKey, {
+      image: imageData,
+    });
+
+    if (response.data && response.data.data && response.data.data.url) {
+      console.log('Image uploaded successfully:', response.data.data.url);
+    } else {
+      console.error('Error uploading image:', response.data);
+    }
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
