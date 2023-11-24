@@ -2,6 +2,7 @@ import { TextInput, TouchableOpacity, Text, KeyboardAvoidingView, SafeAreaView }
 import DocumentPicker from 'react-native-document-picker';
 import { useState } from "react";
 import RNFetchBlob from "rn-fetch-blob";
+import RNFS from 'react-native-fs'
 import { PermissionsAndroid } from "react-native";
 import axios from "axios";
 export default function Post({ navigation }) {
@@ -31,7 +32,10 @@ export default function Post({ navigation }) {
         .stat(result.uri)
         .then((stats) => {
           console.log(stats.path);
-          setImage(stats.path)
+          RNFS.readFile(stats.path, "base64")
+            .then(res => {
+              setImage(res)
+            })
         })
         .catch((err) => {
           console.log(err);
@@ -42,18 +46,21 @@ export default function Post({ navigation }) {
   }
 
   async function UploadFile() {
-    const apiKey = '6ba1f63f9b2cc3e94aaa5f87fec6033d';
+    const formData = new FormData();
+    formData.append('image', image);
 
-    const imageData = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-    const response = await axios.post("https://api.imgbb.com/1/upload?key=" + apiKey, {
-      image: imageData,
+    axios.post('https://api.imgbb.com/1/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      params: {
+        key: "6ba1f63f9b2cc3e94aaa5f87fec6033d",
+      },
+    }).then((res) => {
+      console.log(res.status);
+    }).catch((err) => {
+      err.response.status
     });
-
-    if (response.data && response.data.data && response.data.data.url) {
-      console.log('Image uploaded successfully:', response.data.data.url);
-    } else {
-      console.error('Error uploading image:', response.data);
-    }
   }
 
   return (
