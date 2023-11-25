@@ -31,7 +31,6 @@ export default function Post({ navigation }) {
       RNFetchBlob.fs
         .stat(result.uri)
         .then((stats) => {
-          console.log(stats.path);
           RNFS.readFile(stats.path, "base64")
             .then(res => {
               setImage(res)
