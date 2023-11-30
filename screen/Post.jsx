@@ -5,8 +5,11 @@ import RNFetchBlob from "rn-fetch-blob";
 import RNFS from 'react-native-fs'
 import { PermissionsAndroid } from "react-native";
 import axios from "axios";
+import api from "../services/Api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Post({ navigation }) {
   const [image, setImage] = useState("")
+  const [userid, setId] = useState("")
 
   async function requestReadExternalStorage() {
     try {
@@ -34,6 +37,7 @@ export default function Post({ navigation }) {
           RNFS.readFile(stats.path, "base64")
             .then(res => {
               setImage(res)
+              console.log("Imagem Selecionada")
             })
         })
         .catch((err) => {
@@ -44,9 +48,10 @@ export default function Post({ navigation }) {
     }
   }
 
-  async function UploadFile() {
+  function PublishFile() {
     const formData = new FormData();
     formData.append('image', image);
+    console.log("Tentando adicionar imagem");
 
     axios.post('https://api.imgbb.com/1/upload', formData, {
       headers: {
@@ -56,11 +61,20 @@ export default function Post({ navigation }) {
         key: "6ba1f63f9b2cc3e94aaa5f87fec6033d",
       },
     }).then((res) => {
-      console.log(res.status);
+      const image = res.data
+      console.log(image.delete_url);
+      AsyncStorage.getItem("id").then((res) => {
+        setId(res)
+      })
+      api.post("/post", {
+        userid: userid,
+        image: image.url
+      })
     }).catch((err) => {
-      err.response.status
+      console.log(err);
     });
   }
+
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -86,7 +100,7 @@ export default function Post({ navigation }) {
               <TextInput style={{ flex: 1, minHeight: 40, elevation: 10, backgroundColor: "#ECECEC", borderRadius: 50, margin: 20, padding: 10 }}></TextInput>
             </SafeAreaView>
             <SafeAreaView style={{ flex: 3 }}>
-              <TouchableOpacity onPress={() => UploadFile()} style={{ flex: 1, margin: 80, borderRadius: 100, backgroundColor: "green", justifyContent: "center", alignItems: "center" }}>
+              <TouchableOpacity onPress={() => PublishFile()} style={{ flex: 1, margin: 80, borderRadius: 100, backgroundColor: "green", justifyContent: "center", alignItems: "center" }}>
                 <Text style={{ fontSize: 45, color: "white", elevation: 10 }}>Publicar</Text>
               </TouchableOpacity>
             </SafeAreaView>
