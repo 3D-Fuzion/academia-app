@@ -61,16 +61,16 @@ export default function Post({ navigation }) {
         key: "6ba1f63f9b2cc3e94aaa5f87fec6033d",
       },
     }).then((res) => {
-      const image = res.data
-      console.log(image.delete_url);
+      const response = res.data
       AsyncStorage.getItem("id").then((res) => {
         setId(res)
       })
       api.post("/post", {
         userid: userid,
-        image: image.url
+        image: response.data.image.url
       })
     }).catch((err) => {
+      console.log("error");
       console.log(err);
     });
   }
