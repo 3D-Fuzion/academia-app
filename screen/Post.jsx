@@ -1,6 +1,6 @@
 import { TextInput, TouchableOpacity, Text, KeyboardAvoidingView, SafeAreaView, Alert } from "react-native"
 import DocumentPicker from 'react-native-document-picker';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RNFetchBlob from "rn-fetch-blob";
 import RNFS from 'react-native-fs'
 import { PermissionsAndroid } from "react-native";
@@ -11,6 +11,14 @@ export default function Post({ navigation }) {
   const [image, setImage] = useState("")
   const [userid, setId] = useState("")
   const [title, setTitle] = useState("")
+
+  useEffect(() => {
+    async function GetUserId() {
+      const id = await AsyncStorage.getItem("id")
+      setId(id)
+    }
+    GetUserId()
+  }, [''])
 
   async function requestReadExternalStorage() {
     try {
@@ -68,9 +76,6 @@ export default function Post({ navigation }) {
       },
     }).then((res) => {
       const response = res.data
-      AsyncStorage.getItem("id").then((res) => {
-        setId(res)
-      })
       api.post("/post", {
         userid: userid,
         image: response.data.image.url,
